@@ -60,6 +60,23 @@ defined in linker script */
 Reset_Handler:  
   ldr   sp, =_estack      /* set stack pointer */
 
+  /* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_edata
+  ldr r1, =_estack
+  movs r3, #0
+  movs r5, #0
+  b LoopCopyData0Init
+
+CopyData0Init:
+  str r5, [r0, r3]
+  adds r3, r3, #4
+
+LoopCopyData0Init:
+  adds r4, r0, r3
+  cmp r4, r1
+  bcc CopyData0Init
+
+
 /* Copy the data segment initializers from flash to SRAM */  
   ldr r0, =_sdata
   ldr r1, =_edata
