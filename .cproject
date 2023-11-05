@@ -419,7 +419,8 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
-						<entry excluding="Src/Animations_15_Inch.c|Src/Animations_18_Inch.c|Src/Graphics_15_Inch.c|Src/Graphics_18_Inch.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="new"/>
+						<entry excluding="Src/Animations_15_Inch.c|Src/Animations_18_Inch.c|Src/Graphics_15_Inch.c|Src/Graphics_18_Inch.c|Src/App.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
 						<entry excluding="Target/bsp_driver_sd_org.c|Target/bsp_driver_sd.c|Target/sd_diskio_frisco.c|Target/usbh_diskio.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>

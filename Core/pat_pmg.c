@@ -26,14 +26,12 @@ extern void	sys_timer(void *in);
 extern void	sys_idler(void *in);
 extern void	sys_comer(void *in);
 
-//LTE_4G_LimberLink
-extern void led_blink_task(void *in);
-extern void lte_pmg_task(void *in);
-extern void lte_qbg_task(void *in);
-
-extern void aci_creket_proc(void *in);
-extern void aci_radar_task(void *in);
-extern void aci_gps_task(void *in);
+//PMG
+/*------------------------------------*/
+extern void pmg_main_task(void *in);
+extern void pmg_iwgt_task(void *in);
+extern void pmg_appn_task(void *in);
+extern void pmg_scan_task(void *in);
 /*------------------------------------*/
 PAT PATPool[MAX_PAT_NUM]={
 /*       name      		entry  		type	attr	*/
@@ -47,12 +45,12 @@ PAT PATPool[MAX_PAT_NUM]={
 /*007*/  {"Null Pro", 	&null_p,	0,		0},
 /*008*/  {"Null Pro", 	&null_p,	0,		0},
 /*009*/  {"Null Pro", 	&null_p,	0,		0},
-/*010*/  {"LTE Led", 	&led_blink_task,	TIME,		1},
-/*011*/  {"LTE PMG", 	&lte_pmg_task,	MSG,		0},
-/*012*/  {"LTE QBG", 	&lte_qbg_task,	MSG,		0},
-/*013*/  {"Mini Cricket", 	&aci_creket_proc,	MSG,		0},
-/*014*/  {"RADAR", 	&aci_radar_task,	MSG,		0},
-/*015*/  {"GPS", 	&aci_gps_task,	MSG,		0},
+/*010*/  {"Main", 	&pmg_main_task,	MSG,		0},
+/*011*/  {"WDT", 	&pmg_iwgt_task,	MSG,		0},
+/*012*/  {"App", 	&pmg_appn_task,	MSG,		0},
+/*013*/  {"Low", 	&pmg_scan_task,	REAL,		0},
+/*014*/  {"Null Pro", 	&null_p,	0,		0},
+/*015*/  {"Null Pro", 	&null_p,	0,		0},
 /*016*/  {"Null Pro", 	&null_p,	0,		0},
 /*017*/  {"Null Pro", 	&null_p,	0,		0},
 /*018*/  {"Null Pro", 	&null_p,	0,		0},

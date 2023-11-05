@@ -13,27 +13,21 @@
 #endif
 #endif
 /*------------------------------------*/
-__weak void aci_creket_proc(void *in)
+__weak void pmg_main_task(void *in)
 {
 
 }
-__weak void aci_radar_task(void *in)
+__weak void pmg_iwgt_task(void *in)
 {
 
 }
-__weak void led_blink_task(void *in)
+
+__weak void pmg_appn_task(void *in)
 {
 
 }
-__weak void lte_pmg_task(void *in)
-{
 
-}
-__weak void lte_qbg_task(void *in)
-{
-
-}
-__weak void aci_gps_task(void *in)
+__weak void pmg_scan_task(void *in)
 {
 
 }

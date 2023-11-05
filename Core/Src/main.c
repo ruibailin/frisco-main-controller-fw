@@ -148,6 +148,7 @@ void RunApplication(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 extern void Set_Port_Resets(uint8_t portmask);
+extern void eos_main(void);
 /* USER CODE END 0 */
 
 /**
@@ -208,7 +209,7 @@ int main(void)
   MX_USB_HOST_Init();
   MX_FATFS_Init();
   MX_LWIP_Init();
-  MX_IWDG_Init();
+//  MX_IWDG_Init();		//pmg_iwdg_task
   /* USER CODE BEGIN 2 */
 
   // STM_F767_nRST_L082_GPIO_Port->ODR |= STM_F767_nRST_L082_Pin;
@@ -307,7 +308,7 @@ int main(void)
   InitApplication();
 
   Init_Task_Monitor();
-
+  eos_main();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -742,7 +743,7 @@ static void MX_I2C4_Init(void)
   * @param None
   * @retval None
   */
-static void MX_IWDG_Init(void)
+void MX_IWDG_Init(void)
 {
 
   /* USER CODE BEGIN IWDG_Init 0 */
@@ -769,6 +770,10 @@ static void MX_IWDG_Init(void)
 
 }
 
+void MX_IWDG_Refresh(void)
+{
+	  HAL_IWDG_Refresh(&hiwdg);
+}
 /**
   * @brief SDMMC2 Initialization Function
   * @param None
