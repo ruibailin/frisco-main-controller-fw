@@ -38,7 +38,7 @@
 #include "../Middlewares/ACI/Resources/Resources.h"
 #include "Text_Messages.h"
 #include "Mutex.h"
-#include "../Module_Driver/Module_Hardware_Drivers/Bluetooth_Module.h"
+//#include "../Module_Driver/Module_Hardware_Drivers/Bluetooth_Module.h"	//stupid
 #include "Sensors/ADC_Sensor.h"
 #include "../uSD/uSD.h"
 #include "Installed_Options.h"

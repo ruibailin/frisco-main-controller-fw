@@ -50,8 +50,9 @@ extern int sign_init_Init_Sched_FW_Install(int sinit_state);
 extern int sign_init_SendStartupNotification(int sinit_state);
 extern int sign_init_InitComplete(int sinit_state);
 extern int sign_init_RunControllerApp(int sinit_state);
-/*------------------------------------*/
 extern int sign_init_is_end(int sinit_state);
+/*------------------------------------*/
+extern void sign_init_end(void);
 /*================================================================*/
 /* end of init.c */
 
