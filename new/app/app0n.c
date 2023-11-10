@@ -10,9 +10,9 @@
 /*================================================================*/
 typedef enum
 {
-	APPN_INIT_STATE	= 0,
-	APPN_ENUM_STATE,
-	APPN_WORK_STATE
+	APP0_INIT_STATE	= 0,
+	APP0_ENUM_STATE,
+	APP0_WORK_STATE
 }App0_Machine_States;
 extern uint8_t	Firmware_Install_Active_Flag;
 /*----------------
@@ -38,15 +38,15 @@ void pmg_app00_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(FIRMWARE_UPDATE_PERIOD_MS);
 		if(!Firmware_Install_Active_Flag)
 			break;
@@ -80,15 +80,15 @@ void pmg_app01_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(USB_THUMBDRIVE_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -122,18 +122,18 @@ void pmg_app02_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
 		if(!USB_Net_Host_Active)
 			break;
 		eos_set_timer(USB_HOST_UPDATE_TIME_MS);
-		eos_set_state(APPN_WORK_STATE);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(USB_HOST_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -164,18 +164,18 @@ void pmg_app03_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
 		if(!Networking.Ethernet_Interface_Up)
 			break;
 		eos_set_timer(ETHERNET_UPDATE_TIME_MS);
-		eos_set_state(APPN_WORK_STATE);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(ETHERNET_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -214,21 +214,21 @@ void pmg_app04_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
 		if(!Networking.Radar_Up)
 			break;
 		MX_USB_HOST_FS_Init();
 		if(!Networking.WIFI_Interface_Up)
 			break;
 		eos_set_timer(WIFI_UPDATE_TIME_MS);
-		eos_set_state(APPN_WORK_STATE);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(WIFI_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -258,17 +258,17 @@ void pmg_app05_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
 		if(!Networking.LTE_Interface_Up)
 			break;
-		eos_set_state(APPN_WORK_STATE);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(LTE_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -298,15 +298,15 @@ void pmg_app06_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(STATS_UPLOAD_TASK_PERIOD_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -338,17 +338,17 @@ void pmg_app07_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
 		if(!Is_Bluetooth_Module_Installed())
 			break;
-		eos_set_state(APPN_WORK_STATE);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(10);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -380,19 +380,19 @@ void pmg_app08_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
 		uint8_t ret;
 		ret=Ethernet_Module_Installed();
 		if(!ret)
 			break;
-		eos_set_state(APPN_WORK_STATE);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP0_WORK_STATE:
 		eos_set_timer(Ethernet_SAMPLE_PERIOD_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -410,16 +410,16 @@ void pmg_app09_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP0_INIT_STATE:
+		eos_set_timer(APP0_WAIT_ENUM_MS);
+		eos_set_state(APP0_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP0_ENUM_STATE:
+		eos_set_timer(APP0_CHECK_ENUM_MS);
+		eos_set_state(APP0_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS*100);
+	case APP0_WORK_STATE:
+		eos_set_timer(APP0_NORMAL_WORK_MS*100);
 		if(Firmware_Install_Active_Flag)
 			break;
 		break;

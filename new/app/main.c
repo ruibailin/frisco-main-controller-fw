@@ -116,15 +116,17 @@ void pmg_main_task(void *in)
 
 		main_hw_test();
 		Set_Port_Resets(0xff);
-		InitApplication();
+//		InitApplication();
 		Init_Task_Monitor();
-		eos_set_timer(1000);
-		eos_set_state(MAIN_WORK_STATE);
+		eos_set_timer(APPN_WAIT_ENUM_MS);
+		eos_set_state(MAIN_ENUM_STATE);
 		break;
 	case MAIN_ENUM_STATE:
+		eos_set_timer(APPN_CHECK_ENUM_MS);
+		eos_set_state(APPN_WORK_STATE);
 		break;
 	case MAIN_WORK_STATE:
-		eos_set_timer(1000);
+		eos_set_timer(APPN_NORMAL_WORK_MS);
 		break;
 	default:
 		break;

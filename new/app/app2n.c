@@ -10,10 +10,10 @@
 /*================================================================*/
 typedef enum
 {
-	APPN_INIT_STATE	= 0,
-	APPN_ENUM_STATE,
-	APPN_WORK_STATE
-}App1_Machine_States;
+	APP2_INIT_STATE	= 0,
+	APP2_ENUM_STATE,
+	APP2_WORK_STATE
+}App2_Machine_States;
 extern uint8_t	Firmware_Install_Active_Flag;
 /*-------------
  *
@@ -37,16 +37,16 @@ void pmg_app20_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+	case APP2_WORK_STATE:
+		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
 		if(!_433_Key_Pressed_Flag)
@@ -81,16 +81,16 @@ void pmg_app21_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+	case APP2_WORK_STATE:
+		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
 		if(!_433_Receiver.Menu_Active)
@@ -115,16 +115,16 @@ void pmg_app22_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+	case APP2_WORK_STATE:
+		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
 		pmm_check_change_task();
@@ -174,16 +174,16 @@ void pmg_app23_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+	case APP2_WORK_STATE:
+		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
 		ADC_Sensor_Tasks();
@@ -206,16 +206,16 @@ void pmg_app24_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+	case APP2_WORK_STATE:
+		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
 		if(!TempSensorConvComplete_Flag)
@@ -248,15 +248,15 @@ void pmg_app25_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP2_WORK_STATE:
 		eos_set_timer(SIGN_STATE_UPDATE_PERIOD_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -288,15 +288,15 @@ void pmg_app26_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP2_WORK_STATE:
 		eos_set_timer(DEMO_MODE_UPDATE_PERIOD_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -337,15 +337,15 @@ void pmg_app27_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP2_WORK_STATE:
 		eos_set_timer(RTC_UPDATE_PERIOD_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
@@ -390,16 +390,16 @@ void pmg_app28_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+	case APP2_WORK_STATE:
+		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
 		uint8_t ret;
@@ -454,17 +454,17 @@ void pmg_app29_task(void *in)
 	ss=eos_get_state();
 	switch(ss)
 	{
-	case APPN_INIT_STATE:
-		eos_set_timer(APPN_WAIT_ENUM_MS);
-		eos_set_state(APPN_ENUM_STATE);
+	case APP2_INIT_STATE:
+		eos_set_timer(APP2_WAIT_ENUM_MS);
+		eos_set_state(APP2_ENUM_STATE);
 		break;
-	case APPN_ENUM_STATE:
-		eos_set_timer(APPN_CHECK_ENUM_MS);
-		eos_set_state(APPN_WORK_STATE);
+	case APP2_ENUM_STATE:
+		eos_set_timer(APP2_CHECK_ENUM_MS);
+		eos_set_state(APP2_WORK_STATE);
 		break;
-	case APPN_WORK_STATE:
+	case APP2_WORK_STATE:
 	{
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
 		uint8_t ret;
