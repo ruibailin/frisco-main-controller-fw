@@ -153,10 +153,10 @@ void pmg_app13_task(void *in)
 		eos_set_state(APPN_WORK_STATE);
 		break;
 	case APPN_WORK_STATE:
-		eos_set_timer(APPN_NORMAL_WORK_MS);
+		eos_set_timer(APPN_NORMAL_WORK_MS*100);
 		if(Firmware_Install_Active_Flag)
 			break;
-		stats_task_send_records();
+//		stats_task_send_records();
 		break;
 	default:
 		break;

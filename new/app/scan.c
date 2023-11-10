@@ -36,7 +36,7 @@ void pmg_scan_task(void *in)
 	{
 		PowerControl_InitiateShutdown();
 	}
-	app_check_perf();
+	stats_task_send_records();
 }
 /*================================================================*/
 /* end of scan.c */
