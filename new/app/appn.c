@@ -13,7 +13,7 @@ typedef enum
 	APPN_INIT_STATE	= 0,
 	APPN_ENUM_STATE,
 	APPN_WORK_STATE
-}Main_Machine_States;
+}Appn_Machine_States;
 /*------------------------------------*/
 extern void RunApplication(void);
 void pmg_appn_task(void *in);
@@ -24,14 +24,16 @@ void pmg_appn_task(void *in)
 	switch(ss)
 	{
 	case APPN_INIT_STATE:
-		eos_set_timer(10);
-		eos_set_state(APPN_WORK_STATE);
+		eos_set_timer(APPN_WAIT_ENUM_MS);
+		eos_set_state(APPN_ENUM_STATE);
 		break;
 	case APPN_ENUM_STATE:
+		eos_set_timer(APPN_CHECK_ENUM_MS);
+		eos_set_state(APPN_WORK_STATE);
 		break;
 	case APPN_WORK_STATE:
-		eos_set_timer(10);
-		RunApplication();
+		eos_set_timer(APPN_NORMAL_WORK_MS);
+//		RunApplication();
 		break;
 	default:
 		break;

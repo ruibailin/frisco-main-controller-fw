@@ -209,31 +209,31 @@ int main(void)
   MX_USB_HOST_Init();
   MX_FATFS_Init();
   MX_LWIP_Init();
-//  MX_IWDG_Init();		//pmg_iwdg_task
+  MX_IWDG_Init();		//pmg_iwdg_task
   /* USER CODE BEGIN 2 */
 
   // STM_F767_nRST_L082_GPIO_Port->ODR |= STM_F767_nRST_L082_Pin;
-  HAL_GPIO_WritePin(STM_F767_nRST_L082_GPIO_Port, STM_F767_nRST_L082_Pin, GPIO_PIN_SET);
+//  HAL_GPIO_WritePin(STM_F767_nRST_L082_GPIO_Port, STM_F767_nRST_L082_Pin, GPIO_PIN_SET); //move to main_task
 
   // Very important:  Must blink light!
   HAL_TIM_Base_Start_IT(&htim7);
 
-  Init_Debug_Configs();
+//  Init_Debug_Configs();	//move to main_task
 
   // Test_Testpoints(); // ZGy_Note: take this off
   // Start the Frisco Comm interface
-  Init_Frisco_Comm_UART();
+//  Init_Frisco_Comm_UART();  //move to main_task
 
   // Start the Frisco Module UART
-  Init_Frisco_Module_UART();
+//  Init_Frisco_Module_UART();  //move to main_task
 
   // Turn on power to the Fiber port--Careful, it's 14V!!!
   // FIBER_ON_GPIO_Port->ODR |= FIBER_ON_Pin;
-  HAL_GPIO_WritePin(FIBER_ON_GPIO_Port, FIBER_ON_Pin, GPIO_PIN_SET);
+//  HAL_GPIO_WritePin(FIBER_ON_GPIO_Port, FIBER_ON_Pin, GPIO_PIN_SET);  //move to main_task
 
   //Read which messages are enabled/disabled
   //Manual_Msg_Permissions();
-  Read_Back_Messages();
+//  Read_Back_Messages();	//move to main_task
   // Disable interrupts for slots that are not present
 #if defined(DISPLAY_PANEL_15_INCH) || defined(DISPLAY_PANEL_12_INCH)
   EXTI->IMR &= ~SLOT7_INT_Pin;
@@ -241,7 +241,7 @@ int main(void)
 #if defined(DISPLAY_PANEL_12_INCH)
   EXTI->IMR &= ~SLOT6_INT_Pin;
 #endif
-
+#if 0		//move to main_task
   {
 	  formatlog("Main_Controller","Initialization","Init Reg Data\r\n");
 	  uint8_t Registrataion_Data_Init_Retries = 5;
@@ -263,6 +263,7 @@ int main(void)
 	  formatlog("Main_Controller", "Mod_Info","Serial Number %8s\r\n",Regn_Data_Image.SerNum);
   }
 
+
 #ifdef DISPLAY_PANEL_15_INCH
   formatlog("Main_Controller", "Mod_Info","15 INCH\r\n");
 #elif defined(DISPLAY_PANEL_18_INCH)
@@ -273,11 +274,11 @@ int main(void)
   formatlog("Main_Controller", "Mod_Info","Parameter Map Major Version: 0x%08X\r\n", PARAM_MAP_VERSION_MAJOR);
   formatlog("Main_Controller", "Mod_Info","Parameter Map Incremental Version:  0x%08X\r\n", PARAM_MAP_VERSION_INCR);
   formatlog("Main_Controller", "Initialization","Init Complete\r\n");
-
+#endif
   // Give the UART some time to send text
-  HAL_Delay(20);
+//  HAL_Delay(20);							//move to main_task
 
-  LogResetReason(reg_rcc_csr_copy);
+//  LogResetReason(reg_rcc_csr_copy);		//move to main_task
 
   // Bump the watchdog count if we just watchdogged!
 //  if(reg_rcc_csr_copy & RCC_CSR_IWDGRSTF)   // ZGy_Note: this is not needed
@@ -286,8 +287,9 @@ int main(void)
 //  }
 
   // Log watchdog count if nonzero
-  Log_Watchdog_Count();
+  // Log_Watchdog_Count();					//move to main_task
 
+#if 0										//move to main_task
   // If Hardware tests faile, loop
   for(uint8_t i=0; RunHardwareTests(1) == 0; ++i)
   {
@@ -302,12 +304,13 @@ int main(void)
 		  exit(1);
 	  }
   }
+#endif
 
-  Set_Port_Resets(0xff);			//Reboot All Slot, Steve Rui
+//  Set_Port_Resets(0xff);			//Reboot All Slot, Steve Rui //move to main_task
 
-  InitApplication();
+//  InitApplication();				//move to main_task
 
-  Init_Task_Monitor();
+//  Init_Task_Monitor();				//move to main_task
   eos_main();
   /* USER CODE END 2 */
 
@@ -315,9 +318,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_IWDG_Refresh(&hiwdg);
+//	  HAL_IWDG_Refresh(&hiwdg);
 
-	  RunApplication();
+//	  RunApplication();
 #if 0
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();

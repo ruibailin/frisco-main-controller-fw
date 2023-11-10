@@ -25,7 +25,7 @@ void pmg_iwdg_task(void *in)
 	switch(ss)
 	{
 	case IWDG_INIT_STATE:
-		MX_IWDG_Init();
+//		MX_IWDG_Init();
 		eos_set_timer(1000);
 		eos_set_state(IWDG_WORK_STATE);
 		break;

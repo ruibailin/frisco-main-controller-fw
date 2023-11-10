@@ -3,6 +3,10 @@
  *
  *  Created on: Jun 14, 2018
  *      Author: mikea
+ *
+ *  Modified on: Nov 07, 2023
+ *  Only MAJOR_FW_VERSION+1.
+ *  Steve Rui*
  */
 #include <string.h>
 #include <stdbool.h>

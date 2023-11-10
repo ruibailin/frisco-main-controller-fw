@@ -3,6 +3,12 @@
  *
  *  Created on: Sep 15, 2017
  *      Author: mikea
+ *
+ *  Modified on: Nov 07, 2023
+ *  Steve Rui
+ *  Only remove static feature.
+ *  Since all variables and functions need to be accessed by tasks.
+ *
  */
 #include <stdlib.h>
 #include <string.h>
@@ -151,11 +157,11 @@ const char *Task_Strings[] = {"LowLevel",
 #define TASK_RUNTIME_LPALPHA		10
 #define TASK_RUNTIME_FP_DIGITS		6
 
-static uint8_t first_pass = 1;
+ uint8_t first_pass = 1;
 
 Task_Runtimes_t Task_Runtimes[Task_Num_Tasks];
-static uint32_t TaskStartTime = 0;
-static Tasks_Enum_t CurTask = 0;
+ uint32_t TaskStartTime = 0;
+ Tasks_Enum_t CurTask = 0;
 
 uint8_t 				Data_Log_Update_Flag = 0;
 uint32_t 				reg_rcc_csr_copy;
@@ -218,7 +224,7 @@ void Multi_Packet_Timeout(void);
 void Sensor_Bus_Function_Test(void);
 uint8_t Update_Data_Logger(void);
 
-static volatile uint32_t Reset_Reason = 0;
+ volatile uint32_t Reset_Reason = 0;
 
 void LogResetReason(uint32_t rcc_csr)
 {
@@ -248,13 +254,13 @@ void Init_Task_Monitor(void)
 	memset(Task_Runtimes, 0, sizeof(Task_Runtimes));
 }
 
-static void Monitor_Task(Tasks_Enum_t task)
+ void Monitor_Task(Tasks_Enum_t task)
 {
 	TaskStartTime = pmdGetMsTicks();
 	CurTask = task;
 }
 
-static void Update_Task_Runtime(Tasks_Enum_t task)
+ void Update_Task_Runtime(Tasks_Enum_t task)
 {
 	if(task < Task_Num_Tasks)
 	{
@@ -318,7 +324,7 @@ void RunApplication(void)
 	uint32_t mainloop_start;
 	mainloop_start = curtime;
 
-//	Low_Level_App_Update();
+	Low_Level_App_Update();
 
 	if(Firmware_Install_Active_Flag)
 	{
@@ -498,8 +504,8 @@ void RunApplication(void)
 		}
 
 
-static	int sta_no_work=0;
-static	int sta_work=0;
+	int sta_no_work=0;
+	int sta_work=0;
 		// Service Stats Log Messages
 		/////////////////////////////////////////////
 		if(App_Data.Radar_Enable && TimesUp(StatsUpdateTime))
@@ -540,7 +546,7 @@ static	int sta_work=0;
 		/////////////////////////////////////////////
 		if( (ALS_Interrupt_Flag || TimesUp(ALSUpdateTime)) && LockSMutex(&Sensor_Bus_Master.Mutex, ALS_MUTEX_TAG))
 		{
-			static uint8_t retries = 0;
+			 uint8_t retries = 0;
 			Monitor_Task(Task_ALS);
 
 			if(ALS_Interrupt_Flag)
@@ -897,10 +903,10 @@ static	int sta_work=0;
 			TP_H;
 			Monitor_Task(Task_I2C_Bus_Watchdog);
 
-//			static uint8_t bus_trigger_flags = 0;
+//			 uint8_t bus_trigger_flags = 0;
 
 			//TODO:  Need to do a round-robin over the busses even if another bus is locked up.
-//			static uint8_t bus_flag = 1;
+//			 uint8_t bus_flag = 1;
 
 			if(!Trigger_I2C_Bus_Function_Test && TimesUp(I2C_Bus_Watchdog_Time))
 			{
