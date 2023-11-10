@@ -16,6 +16,7 @@
 #define app_alarm(x...)   	printf(x);
 #define app_panic(x...)		printf(x);
 /*------------------------------------*/
+//The following come from Application/Src/App.c
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
