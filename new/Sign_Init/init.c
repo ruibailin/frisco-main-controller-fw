@@ -408,7 +408,7 @@ int sign_init_NTCIP_Init(int sinit_state){
 return sinit_state;}
 int sign_init_Init_Sched_FW_Install(int sinit_state){
 			formatlog("Main_Controller","Initialization","Init Scheduled Firmware Install\r\n");
-#warning 	TODO:  Need to load scheduled install file once RTC Alarms have been refactored.
+//#warning 	TODO:  Need to load scheduled install file once RTC Alarms have been refactored.
 //			Catalog_Sched_FW_Install_Files();
 			LogStartupTime(6);
 			++sinit_state;
@@ -465,11 +465,17 @@ if(sinit_state >= signinit_StartEnumerations)
 
 }while(sinit_state < signinit_RunControllerApp);
 #endif
-/*------------------------------------*/
+
 int sign_init_is_end(int sinit_state)
 {
 	if(sinit_state < signinit_RunControllerApp)
 		return 0;
+	else
+		return 1;
+}
+/*------------------------------------*/
+void sign_init_end()
+{
 	// Place the controller board in the installed options list
 	Save_Controller_As_Option();
 
@@ -478,7 +484,6 @@ int sign_init_is_end(int sinit_state)
 		formatlog("Main_Controller", "Installed_Opt","Log Installed Options.\r\n");
 		Log_Installed_Options();
 	}
-	return 1;
 }
 
 /*================================================================*/

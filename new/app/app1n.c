@@ -14,6 +14,9 @@ typedef enum
 	APP1_ENUM_STATE,
 	APP1_WORK_STATE
 }App1_Machine_States;
+#define APP1_WAIT_ENUM_MS		(1000*3)
+#define APP1_CHECK_ENUM_MS		1000
+#define APP1_NORMAL_WORK_MS		10
 extern uint8_t	Firmware_Install_Active_Flag;
 /*------------
  *

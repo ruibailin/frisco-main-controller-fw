@@ -14,6 +14,9 @@ typedef enum
 	APP5_ENUM_STATE,
 	APP5_WORK_STATE
 }App5_Machine_States;
+#define APP5_WAIT_ENUM_MS		(1000*3)
+#define APP5_CHECK_ENUM_MS		1000
+#define APP5_NORMAL_WORK_MS		10
 extern uint8_t	Firmware_Install_Active_Flag;
 /*------------------------------------*/
 void pmg_app50_task(void *in);

@@ -14,6 +14,9 @@ typedef enum
 	APP0_ENUM_STATE,
 	APP0_WORK_STATE
 }App0_Machine_States;
+#define APP0_WAIT_ENUM_MS		(1000*3)
+#define APP0_CHECK_ENUM_MS		1000
+#define APP0_NORMAL_WORK_MS		10
 extern uint8_t	Firmware_Install_Active_Flag;
 /*----------------
  * 	if(Firmware_Install_Active_Flag)
@@ -44,6 +47,11 @@ void pmg_app00_task(void *in)
 		break;
 	case APP0_ENUM_STATE:
 		eos_set_timer(APP0_CHECK_ENUM_MS);
+
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP0_WORK_STATE);
 		break;
 	case APP0_WORK_STATE:
