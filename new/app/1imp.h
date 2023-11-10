@@ -197,10 +197,13 @@ extern Tasks_Enum_t Get_Current_Task(void);
 #include "Stats_Buffed.h"
 extern void pmm_check_change_task(void);
 
+/*------------------------------------*/
 #define APPN_WAIT_ENUM_MS		(1000*3)
 #define APPN_CHECK_ENUM_MS		1000
 #define APPN_NORMAL_WORK_MS		10
 
 #include "eos/eos.h"
+#include "../Sign_Init/init.h"
+#include "../Sign_Init/1imp.h"
 /*================================================================*/
 #endif /* APP_1IMP_H_ */

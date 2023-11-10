@@ -149,5 +149,9 @@ extern uint32_t MPPT_StartTime;                 // ZGy_Note_MPPT
 #include "Frisco.h"
 extern FRISCO Frisco;
 extern void bsp_refresh_iwdg(void);
+
+/*------------------------------------*/
+#include "eos/eos.h"
+
 /*================================================================*/
 #endif /* SIGN_INIT_1IMP_H_ */
