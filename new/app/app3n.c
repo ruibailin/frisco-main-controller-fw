@@ -12,7 +12,7 @@ typedef enum
 {
 	APP3_INIT_STATE	= 0,
 	APP3_ENUM_STATE,
-	APP3_WORK_STATE
+	APP3_WORK_STATE = APP3_ENUM_STATE+20
 }App3_Machine_States;
 #define APP3_WAIT_ENUM_MS		(1000*3)
 #define APP3_CHECK_ENUM_MS		1000
@@ -40,11 +40,15 @@ void pmg_app30_task(void *in)
 	switch(ss)
 	{
 	case APP3_INIT_STATE:
-		eos_set_timer(APP3_WAIT_ENUM_MS);
+		sign_wait_init();
 		eos_set_state(APP3_ENUM_STATE);
 		break;
 	case APP3_ENUM_STATE:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -86,15 +90,28 @@ void pmg_app31_task(void *in);
 void pmg_app31_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP3_INIT_STATE:
-		eos_set_timer(APP3_WAIT_ENUM_MS);
-		eos_set_state(APP3_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP3_ENUM_STATE+0);
 		break;
-	case APP3_ENUM_STATE:
+	case APP3_ENUM_STATE+0:
+		state=sign_init_InitData_Log(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP3_ENUM_STATE+1);
+		break;
+	case APP3_ENUM_STATE+1:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -143,15 +160,19 @@ void pmg_app32_task(void *in)
 		break;
 	case APP3_ENUM_STATE:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
 		eos_set_timer(APP3_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
-		uint8_t ret;
-		ret=Serial_Output_Buffer_Msg_Pending();
-		if(!ret)
+		uint8_t ret1;
+		ret1=Serial_Output_Buffer_Msg_Pending();
+		if(!ret1)
 			break;
 		Process_Outgoing_Serial_Messages();
 	default:
@@ -193,6 +214,10 @@ void pmg_app33_task(void *in)
 		break;
 	case APP3_ENUM_STATE:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -240,6 +265,10 @@ void pmg_app34_task(void *in)
 		break;
 	case APP3_ENUM_STATE:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -274,15 +303,28 @@ void pmg_app35_task(void *in);
 void pmg_app35_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP3_INIT_STATE:
-		eos_set_timer(APP3_WAIT_ENUM_MS);
-		eos_set_state(APP3_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP3_ENUM_STATE+0);
 		break;
-	case APP3_ENUM_STATE:
+	case APP3_ENUM_STATE+0:
+		state=sign_init_InitAppData(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP3_ENUM_STATE+1);
+		break;
+	case APP3_ENUM_STATE+1:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -291,9 +333,9 @@ void pmg_app35_task(void *in)
 			break;
 		if(!Menu_Map_Update_Reset_Handler)
 			break;
-		bool ret;
-		ret=All_Messages_Sent();
-		if(!ret)
+		bool ret1;
+		ret1=All_Messages_Sent();
+		if(!ret1)
 			break;
 		Reset_Sign();
 	default:
@@ -317,15 +359,28 @@ void pmg_app36_task(void *in);
 void pmg_app36_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP3_INIT_STATE:
-		eos_set_timer(APP3_WAIT_ENUM_MS);
-		eos_set_state(APP3_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP3_ENUM_STATE+0);
 		break;
-	case APP3_ENUM_STATE:
+	case APP3_ENUM_STATE+0:
+		state=sign_init_RS232Init(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP3_ENUM_STATE+1);
+		break;
+	case APP3_ENUM_STATE+1:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -363,6 +418,10 @@ void pmg_app37_task(void *in)
 		break;
 	case APP3_ENUM_STATE:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -578,6 +637,10 @@ void pmg_app38_task(void *in)
 		break;
 	case APP3_ENUM_STATE:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:
@@ -622,6 +685,10 @@ void pmg_app39_task(void *in)
 		break;
 	case APP3_ENUM_STATE:
 		eos_set_timer(APP3_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP3_WORK_STATE);
 		break;
 	case APP3_WORK_STATE:

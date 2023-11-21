@@ -17,7 +17,7 @@ __weak void pmg_main_task(void *in)
 {
 
 }
-__weak void pmg_iwgt_task(void *in)
+__weak void pmg_iwdg_task(void *in)
 {
 
 }

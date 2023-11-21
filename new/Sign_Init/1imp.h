@@ -152,6 +152,6 @@ extern void bsp_refresh_iwdg(void);
 
 /*------------------------------------*/
 #include "eos/eos.h"
-
+#define	PMG_INIT_NEXT_EVENT		(EOS_USER_EVENT+0)
 /*================================================================*/
 #endif /* SIGN_INIT_1IMP_H_ */

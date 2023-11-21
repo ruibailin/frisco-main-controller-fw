@@ -12,7 +12,7 @@ typedef enum
 {
 	APP1_INIT_STATE	= 0,
 	APP1_ENUM_STATE,
-	APP1_WORK_STATE
+	APP1_WORK_STATE =APP1_ENUM_STATE+20
 }App1_Machine_States;
 #define APP1_WAIT_ENUM_MS		(1000*3)
 #define APP1_CHECK_ENUM_MS		1000
@@ -42,6 +42,10 @@ void pmg_app10_task(void *in)
 		break;
 	case APP1_ENUM_STATE:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
@@ -83,6 +87,10 @@ void pmg_app11_task(void *in)
 		eos_set_timer(APP1_CHECK_ENUM_MS);
 		if(!Is_4G_Module_Installed())
 			break;
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
@@ -111,15 +119,44 @@ void pmg_app12_task(void *in);
 void pmg_app12_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP1_INIT_STATE:
-		eos_set_timer(APP1_WAIT_ENUM_MS);
-		eos_set_state(APP1_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+0);
 		break;
-	case APP1_ENUM_STATE:
+	case APP1_ENUM_STATE+0:
+		state=sign_init_InitFrisco(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+1);
+		break;
+	case APP1_ENUM_STATE+1:
+		state=sign_init_InitFriscoCommBus(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+2);
+		break;
+	case APP1_ENUM_STATE+2:
+		state=sign_init_TurnOnRadarPower(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+3);
+		break;
+	case APP1_ENUM_STATE+3:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
@@ -153,10 +190,14 @@ void pmg_app13_task(void *in)
 		break;
 	case APP1_ENUM_STATE:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
-		eos_set_timer(APP1_NORMAL_WORK_MS*100);
+//		eos_set_timer(APP1_NORMAL_WORK_MS*100);
 		if(Firmware_Install_Active_Flag)
 			break;
 //		stats_task_send_records();
@@ -185,16 +226,29 @@ void pmg_app14_task(void *in);
 void pmg_app14_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP1_INIT_STATE:
-		eos_set_timer(APP1_WAIT_ENUM_MS);
-		eos_set_state(APP1_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+0);
 		break;
-	case APP1_ENUM_STATE:
+	case APP1_ENUM_STATE+0:
+		state=sign_init_MPPTInit(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+1);
+		break;
+	case APP1_ENUM_STATE+1:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
 		if(!mppt.Is_MPPT_Installed)
+			break;
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
 			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
@@ -224,15 +278,28 @@ void pmg_app15_task(void *in);
 void pmg_app15_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP1_INIT_STATE:
-		eos_set_timer(APP1_WAIT_ENUM_MS);
-		eos_set_state(APP1_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+0);
 		break;
-	case APP1_ENUM_STATE:
+	case APP1_ENUM_STATE+0:
+		state=sign_init_Module_Post_Enum_Configuration(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+1);
+		break;
+	case APP1_ENUM_STATE+1:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
@@ -273,6 +340,10 @@ void pmg_app16_task(void *in)
 		break;
 	case APP1_ENUM_STATE:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
@@ -330,16 +401,29 @@ void pmg_app17_task(void *in);
 void pmg_app17_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP1_INIT_STATE:
-		eos_set_timer(APP1_WAIT_ENUM_MS);
-		eos_set_state(APP1_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+0);
 		break;
-	case APP1_ENUM_STATE:
+	case APP1_ENUM_STATE+0:
+		state=sign_init_InituSD(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+1);
+		break;
+	case APP1_ENUM_STATE+1:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
 		if(!App_Data.Radar_Enable)
+			break;
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
 			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
@@ -417,15 +501,28 @@ void pmg_app18_task(void *in);
 void pmg_app18_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP1_INIT_STATE:
-		eos_set_timer(APP1_WAIT_ENUM_MS);
-		eos_set_state(APP1_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+0);
 		break;
-	case APP1_ENUM_STATE:
+	case APP1_ENUM_STATE+0:
+		state=sign_init_InitLightSensorManager(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP1_ENUM_STATE+1);
+		break;
+	case APP1_ENUM_STATE+1:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
@@ -434,9 +531,9 @@ void pmg_app18_task(void *in)
 			break;
 		if(!ALS_Interrupt_Flag)
 			break;
-		bool ret;
-		ret=Update_Light_Sensor_Manager();
-		if(!ret)
+		bool ret1;
+		ret1=Update_Light_Sensor_Manager();
+		if(!ret1)
 			return;
 		ALS_Interrupt_Flag = 0;
 		break;
@@ -459,6 +556,10 @@ void pmg_app19_task(void *in)
 		break;
 	case APP1_ENUM_STATE:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
@@ -467,10 +568,10 @@ void pmg_app19_task(void *in)
 			break;
 		if(!LockSMutex(&Sensor_Bus_Master.Mutex, ALS_MUTEX_TAG))
 			break;
-		bool ret;
-		ret=Start_Ambient_Light_Sensor_Sample_It();
+		bool ret1;
+		ret1=Start_Ambient_Light_Sensor_Sample_It();
 		UnlockSMutex(&Sensor_Bus_Master.Mutex, ALS_MUTEX_TAG);
-		if(!ret)
+		if(!ret1)
 			break;
 		eos_set_timer(App_Data.Lux_Measurement_Period_ms);
 		break;

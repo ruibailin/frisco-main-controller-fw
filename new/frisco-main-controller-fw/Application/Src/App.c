@@ -1056,7 +1056,7 @@ void Low_Level_App_Update(void)
 	//  Process interrupt inputs from modules
 	/////////////////////////////////////////////
 	Monitor_Task(Task_LowLevel);
-
+	return;
 	// Slot 1 Interrupt Handler
 	//////////////////////////////
 	if(Slot_1_Int_Flag && Is_Module_Bus_Ready())

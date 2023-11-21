@@ -12,7 +12,7 @@ typedef enum
 {
 	APP4_INIT_STATE	= 0,
 	APP4_ENUM_STATE,
-	APP4_WORK_STATE
+	APP4_WORK_STATE = APP4_ENUM_STATE+20
 }App4_Machine_States;
 #define APP4_WAIT_ENUM_MS		(1000*3)
 #define APP4_CHECK_ENUM_MS		1000
@@ -43,6 +43,10 @@ void pmg_app40_task(void *in)
 		break;
 	case APP4_ENUM_STATE:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -84,6 +88,10 @@ void pmg_app41_task(void *in)
 		break;
 	case APP4_ENUM_STATE:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -127,6 +135,10 @@ void pmg_app42_task(void *in)
 		break;
 	case APP4_ENUM_STATE:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -164,6 +176,10 @@ void pmg_app43_task(void *in)
 		break;
 	case APP4_ENUM_STATE:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -210,15 +226,44 @@ void pmg_app44_task(void *in);
 void pmg_app44_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP4_INIT_STATE:
-		eos_set_timer(APP4_WAIT_ENUM_MS);
-		eos_set_state(APP4_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+0);
 		break;
-	case APP4_ENUM_STATE:
+	case APP4_ENUM_STATE+0:
+		state=sign_init_Start(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+1);
+		break;
+	case APP4_ENUM_STATE+1:
+		state=sign_init_StartModuleBusEnumeration(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+2);
+		break;
+	case APP4_ENUM_STATE+2:
+		state=sign_init_ModuleBusEnum(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+3);
+		break;
+	case APP4_ENUM_STATE+3:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -253,16 +298,53 @@ void pmg_app45_task(void *in);
 void pmg_app45_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP4_INIT_STATE:
-		eos_set_timer(APP4_WAIT_ENUM_MS);
-		eos_set_state(APP4_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+0);
 		break;
-	case APP4_ENUM_STATE:
+	case APP4_ENUM_STATE+0:
+		state=sign_init_StartPanelEnumeration(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+1);
+		break;
+	case APP4_ENUM_STATE+1:
+		state=sign_init_PanelBusEnum(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+2);
+		break;
+	case APP4_ENUM_STATE+2:
+		state=sign_init_WaitForPanelBusEnumComplete(sinit_state);
+		if(state != sinit_state)
+		{
+			sinit_state = state;
+			sign_wait_init();
+			eos_set_state(APP4_ENUM_STATE+3);
+			break;
+		}
+		state=sign_init_PanelEnumTimedOut(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+3);
+		break;
+	case APP4_ENUM_STATE+3:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
-		eos_set_state(APP4_WORK_STATE);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
+		eos_set_state(APP4_ENUM_STATE);
 		break;
 	case APP4_WORK_STATE:
 		eos_set_timer(APP4_NORMAL_WORK_MS);
@@ -301,6 +383,10 @@ void pmg_app46_task(void *in)
 		break;
 	case APP4_ENUM_STATE:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -334,15 +420,60 @@ void pmg_app47_task(void *in);
 void pmg_app47_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP4_INIT_STATE:
-		eos_set_timer(APP4_WAIT_ENUM_MS);
-		eos_set_state(APP4_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+0);
 		break;
-	case APP4_ENUM_STATE:
-		eos_set_timer(APP4_CHECK_ENUM_MS);
+	case APP4_ENUM_STATE+0:
+		state=sign_init_InitSensorBus(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+1);
+		break;
+	case APP4_ENUM_STATE+1:
+		state=sign_init_StartMPPTEnumeration(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+2);
+		break;
+	case APP4_ENUM_STATE+2:
+		state=sign_init_TestForMPPTPresence(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+3);
+		break;
+	case APP4_ENUM_STATE+3:
+		state=sign_init_MPPTEnum(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+4);
+		break;
+	case APP4_ENUM_STATE+4:
+		state=sign_init_MPPT_Enumeration_Complete(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP4_ENUM_STATE+5);
+		break;
+	case APP4_ENUM_STATE+5:
+		eos_set_timer(APP4_WAIT_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -383,6 +514,10 @@ void pmg_app48_task(void *in)
 		break;
 	case APP4_ENUM_STATE:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
@@ -418,6 +553,10 @@ void pmg_app49_task(void *in)
 		break;
 	case APP4_ENUM_STATE:
 		eos_set_timer(APP4_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:

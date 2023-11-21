@@ -12,7 +12,7 @@ typedef enum
 {
 	APP2_INIT_STATE	= 0,
 	APP2_ENUM_STATE,
-	APP2_WORK_STATE
+	APP2_WORK_STATE =APP2_ENUM_STATE+20
 }App2_Machine_States;
 #define APP2_WAIT_ENUM_MS		(1000*3)
 #define APP2_CHECK_ENUM_MS		1000
@@ -46,6 +46,10 @@ void pmg_app20_task(void *in)
 		break;
 	case APP2_ENUM_STATE:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -90,6 +94,10 @@ void pmg_app21_task(void *in)
 		break;
 	case APP2_ENUM_STATE:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -124,6 +132,10 @@ void pmg_app22_task(void *in)
 		break;
 	case APP2_ENUM_STATE:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -174,15 +186,28 @@ void pmg_app23_task(void *in);
 void pmg_app23_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP2_INIT_STATE:
-		eos_set_timer(APP2_WAIT_ENUM_MS);
-		eos_set_state(APP2_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+0);
 		break;
-	case APP2_ENUM_STATE:
+	case APP2_ENUM_STATE+0:
+		state=sign_init_InitTempSensor(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+1);
+		break;
+	case APP2_ENUM_STATE+1:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -215,6 +240,10 @@ void pmg_app24_task(void *in)
 		break;
 	case APP2_ENUM_STATE:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -248,15 +277,28 @@ void pmg_app25_task(void *in);
 void pmg_app25_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP2_INIT_STATE:
-		eos_set_timer(APP2_WAIT_ENUM_MS);
-		eos_set_state(APP2_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+0);
 		break;
-	case APP2_ENUM_STATE:
+	case APP2_ENUM_STATE+0:
+		state=sign_init_InitSignState(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+1);
+		break;
+	case APP2_ENUM_STATE+1:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -297,6 +339,10 @@ void pmg_app26_task(void *in)
 		break;
 	case APP2_ENUM_STATE:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -337,15 +383,28 @@ void pmg_app27_task(void *in);
 void pmg_app27_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP2_INIT_STATE:
-		eos_set_timer(APP2_WAIT_ENUM_MS);
-		eos_set_state(APP2_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+0);
 		break;
-	case APP2_ENUM_STATE:
+	case APP2_ENUM_STATE+0:
+		state=sign_init_RtcInit(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+1);
+		break;
+	case APP2_ENUM_STATE+1:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
@@ -390,24 +449,45 @@ void pmg_app28_task(void *in);
 void pmg_app28_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP2_INIT_STATE:
-		eos_set_timer(APP2_WAIT_ENUM_MS);
-		eos_set_state(APP2_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+0);
 		break;
-	case APP2_ENUM_STATE:
+	case APP2_ENUM_STATE+0:
+		state=sign_init_InitDisplay(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+1);
+		break;
+	case APP2_ENUM_STATE+1:
+		state=sign_init_ClearDisplays(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+2);
+		break;
+	case APP2_ENUM_STATE+2:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
 		eos_set_timer(APP2_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
-		uint8_t ret;
-		ret=Display_Update_Thread();
-		if(!ret)
+		uint8_t ret1;
+		ret1=Display_Update_Thread();
+		if(!ret1)
 			break;
 		eos_set_timer(((DISPLAY_UPDATE_PERIOD_MS/10)+1)*10);
 		break;
@@ -454,15 +534,27 @@ void pmg_app29_task(void *in);
 void pmg_app29_task(void *in)
 {
 	int ss;
+	int state;
 	ss=eos_get_state();
 	switch(ss)
 	{
 	case APP2_INIT_STATE:
-		eos_set_timer(APP2_WAIT_ENUM_MS);
-		eos_set_state(APP2_ENUM_STATE);
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+0);
 		break;
-	case APP2_ENUM_STATE:
+	case APP2_ENUM_STATE+0:
+		state=sign_init_Ymodem_Init(sinit_state);
+		if(state == sinit_state)
+			break;
+		sinit_state = state;
+		sign_wait_init();
+		eos_set_state(APP2_ENUM_STATE+1);
+	case APP2_ENUM_STATE+1:
 		eos_set_timer(APP2_CHECK_ENUM_MS);
+		int ret;
+		ret=sign_init_is_end(sinit_state);
+		if(!ret)
+			break;
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:

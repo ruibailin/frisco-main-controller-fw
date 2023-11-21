@@ -132,7 +132,7 @@ static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
 static void MX_SDMMC2_SD_Init(void);
 static void MX_USB_OTG_HS_HCD_Init(void);
-static void MX_IWDG_Init(void);
+void MX_IWDG_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
@@ -209,7 +209,7 @@ int main(void)
   MX_USB_HOST_Init();
   MX_FATFS_Init();
   MX_LWIP_Init();
-  MX_IWDG_Init();		//pmg_iwdg_task
+//  MX_IWDG_Init();		//pmg_iwdg_task
   /* USER CODE BEGIN 2 */
 
   // STM_F767_nRST_L082_GPIO_Port->ODR |= STM_F767_nRST_L082_Pin;

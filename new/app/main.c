@@ -127,7 +127,6 @@ void pmg_main_task(void *in)
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		sign_init_end();				//display init end message
 		eos_set_state(MAIN_WORK_STATE);
 		break;
 	case MAIN_WORK_STATE:

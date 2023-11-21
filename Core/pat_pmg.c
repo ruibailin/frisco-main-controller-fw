@@ -29,7 +29,7 @@ extern void	sys_comer(void *in);
 //PMG
 /*------------------------------------*/
 extern void pmg_main_task(void *in);
-extern void pmg_iwgt_task(void *in);
+extern void pmg_iwdg_task(void *in);
 extern void pmg_appn_task(void *in);
 extern void pmg_scan_task(void *in);
 /*------------------------------------*/
@@ -162,10 +162,10 @@ PAT PATPool[MAX_PAT_NUM]={
 
 /*056*/  {"App", 	&pmg_appn_task,	MSG,		0},
 /*057*/  {"Low", 	&pmg_scan_task,	REAL,		0},
-/*058*/  {"WDT", 	&pmg_iwgt_task,	MSG,		0},
-/*059*/  {"app00", 	&pmg_app00_task,	MSG,		0},
+/*058*/  {"WDT", 	&pmg_iwdg_task,	MSG,		0},
+/*059*/  {"Main", 	&pmg_main_task,	MSG,		0},
 /*060*/  {"Com outside", 	&sys_comer,	MSG,		0},
-/*061*/  {"Main", 	&pmg_main_task,	MSG,		0},
+/*061*/  {"Null Pro", 	&null_p,	0,		0},
 /*062*/  {"Timer Proc", 	&sys_timer,	TIME,		1},
 /*063*/  {"Idler Proc", 	&sys_idler,	IDLE,		0},
 };
