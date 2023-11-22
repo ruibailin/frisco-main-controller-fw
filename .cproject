@@ -420,9 +420,9 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="new"/>
-						<entry excluding="Src/Animations_15_Inch.c|Src/Animations_18_Inch.c|Src/Graphics_15_Inch.c|Src/Graphics_18_Inch.c|Src/App.c|Src/Installed_Options.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
+						<entry excluding="Src/Animations_15_Inch.c|Src/Graphics_15_Inch.c|Src/Installed_Options.c|Src/Animations_18_Inch.c|Src/Graphics_18_Inch.c|Src/App.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
-						<entry excluding="Target/bsp_driver_sd_org.c|Target/bsp_driver_sd.c|Target/sd_diskio_frisco.c|Target/usbh_diskio.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
+						<entry excluding="Target/bsp_driver_sd.c|Target/usbh_diskio.c|Target/sd_diskio_frisco.c|Target/bsp_driver_sd_org.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c|ACI/Firmware_Update/Spi_Flash_Target.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
@@ -1092,11 +1092,11 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
-						<entry excluding="Target|App" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USB_HOST"/>
+						<entry excluding="App|Target" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USB_HOST"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="new"/>
-						<entry excluding="Src/Animations_15_Inch.c|Src/Animations_18_Inch.c|Src/Graphics_15_Inch.c|Src/Graphics_18_Inch.c|Src/App.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
+						<entry excluding="Src/Animations_15_Inch.c|Src/Graphics_15_Inch.c|Src/Animations_18_Inch.c|Src/Graphics_18_Inch.c|Src/App.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
-						<entry excluding="Target/bsp_driver_sd_org.c|Target/bsp_driver_sd.c|Target/sd_diskio_frisco.c|Target/usbh_diskio.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
+						<entry excluding="Target/bsp_driver_sd.c|Target/usbh_diskio.c|Target/sd_diskio_frisco.c|Target/bsp_driver_sd_org.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
@@ -1647,9 +1647,9 @@
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
 						<entry excluding="Src/Animations_12_Inch.c|Src/Animations_18_Inch.c|Src/Graphics_12_Inch.c|Src/Graphics_18_Inch.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
-						<entry excluding="Target/bsp_driver_sd_org.c|Target/bsp_driver_sd.c|Target/sd_diskio_frisco.c|Target/usbh_diskio.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
+						<entry excluding="Target/bsp_driver_sd.c|Target/usbh_diskio.c|Target/sd_diskio_frisco.c|Target/bsp_driver_sd_org.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
-						<entry excluding="ST/STM32_USB_Host_Library/|Third_Party/FatFs/src/ff.c|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
+						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
 						<entry excluding="app/|bsp/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
@@ -2186,9 +2186,9 @@
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
 						<entry excluding="Src/Animations_12_Inch.c|Src/Animations_18_Inch.c|Src/Graphics_12_Inch.c|Src/Graphics_18_Inch.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
-						<entry excluding="Target/bsp_driver_sd_org.c|Target/bsp_driver_sd.c|Target/sd_diskio_frisco.c|Target/usbh_diskio.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
+						<entry excluding="Target/bsp_driver_sd.c|Target/usbh_diskio.c|Target/sd_diskio_frisco.c|Target/bsp_driver_sd_org.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
-						<entry excluding="ST/STM32_USB_Host_Library/|Third_Party/FatFs/src/ff.c|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
+						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
 						<entry excluding="app/|bsp/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
@@ -2736,11 +2736,11 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="new"/>
-						<entry excluding="Src/Animations_12_Inch.c|Src/Animations_15_Inch.c|Src/Graphics_12_Inch.c|Src/Graphics_15_Inch.c|Src/App.c|Src/Installed_Options.c|Src/Sign_Init.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
-						<entry excluding="Target/bsp_driver_sd_org.c|Target/bsp_driver_sd.c|Target/sd_diskio_frisco.c|Target/usbh_diskio.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
+						<entry excluding="Src/Sign_Init.c|Src/Animations_15_Inch.c|Src/Graphics_15_Inch.c|Src/Installed_Options.c|Src/Animations_12_Inch.c|Src/Graphics_12_Inch.c|Src/App.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
+						<entry excluding="Module_Driver/Module_Bus.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
+						<entry excluding="Target/bsp_driver_sd.c|Target/usbh_diskio.c|Target/sd_diskio_frisco.c|Target/bsp_driver_sd_org.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
-						<entry excluding="ST/STM32_USB_Host_Library/|Third_Party/FatFs/src/ff.c|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
+						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
 						<entry excluding="app/|bsp/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
@@ -3168,9 +3168,9 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
-						<entry excluding="Src/Animations_12_Inch.c|Src/Animations_15_Inch.c|Src/Graphics_12_Inch.c|Src/Graphics_15_Inch.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
+						<entry excluding="Src/Animations_15_Inch.c|Src/Graphics_15_Inch.c|Src/Animations_12_Inch.c|Src/Graphics_12_Inch.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
-						<entry excluding="Target/bsp_driver_sd_org.c|Target/bsp_driver_sd.c|Target/sd_diskio_frisco.c|Target/usbh_diskio.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
+						<entry excluding="Target/bsp_driver_sd.c|Target/usbh_diskio.c|Target/sd_diskio_frisco.c|Target/bsp_driver_sd_org.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/FATFS"/>
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
