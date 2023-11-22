@@ -38,6 +38,7 @@ void pmg_app09_task(void *in);
 void pmg_app09_task(void *in)
 {
 	int ss;
+	int ee;
 	ss=eos_get_state();
 	switch(ss)
 	{
@@ -55,7 +56,9 @@ void pmg_app09_task(void *in)
 		eos_set_state(APP0_WORK_STATE);
 		break;
 	case APP0_WORK_STATE:
-		eos_set_timer(FIRMWARE_UPDATE_PERIOD_MS);
+		ee=eos_get_event();
+		if(ee!=EOS_USER_EVENT)
+			break;
 		if(!Firmware_Install_Active_Flag)
 			break;
 		LockSMutex(&SPI2_LED2_Mutex, SPI_FLASH_MUTEX_TAG);

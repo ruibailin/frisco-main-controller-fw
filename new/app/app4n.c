@@ -222,11 +222,13 @@ void pmg_app43_task(void *in)
  *
  *
  * ---------------------*/
+void i2c_bus_deal_msg(void *in);
 void pmg_app44_task(void *in);
 void pmg_app44_task(void *in)
 {
 	int ss;
 	int state;
+	i2c_bus_deal_msg(in);
 	ss=eos_get_state();
 	switch(ss)
 	{
@@ -290,6 +292,7 @@ void pmg_app45_task(void *in)
 {
 	int ss;
 	int state;
+	i2c_bus_deal_msg(in);
 	ss=eos_get_state();
 	switch(ss)
 	{
@@ -360,6 +363,7 @@ void pmg_app46_task(void *in);
 void pmg_app46_task(void *in)
 {
 	int ss;
+	i2c_bus_deal_msg(in);
 	ss=eos_get_state();
 	switch(ss)
 	{
@@ -401,6 +405,7 @@ void pmg_app47_task(void *in)
 {
 	int ss;
 	int state;
+	i2c_bus_deal_msg(in);
 	ss=eos_get_state();
 	switch(ss)
 	{
