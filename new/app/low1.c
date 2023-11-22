@@ -96,9 +96,34 @@
  *
  *
  * -----------------------*/
+#include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
+#include "Module_Bus.h"
+#include "I2C_Bus_Master.h"
+extern I2C_Bus_Master 	Module_Bus_Master;
+extern I2C_Bus_Master	Sensor_Bus_Master;
+extern I2C_Bus_Master 	Panel_Bus_1_Master;
+extern I2C_Bus_Master 	Panel_Bus_2_Master;
+static void scan_i2c_msg(void);
+static void scan_i2c_msg()
+{
+	if(Module_Bus_Master.RxData_Callback==0x0L)
+		return;
+	if(!(TimesUp(ModuleBusUpdateTime) || Module_Bus_Master.KickBusProcess))
+		return;
+	if(IsSMutexLocked(&SPI2_LED2_Mutex))
+		return;
+	if(IsSMutexLocked(&Sensor_Bus_Master.Mutex))
+		return;
+	Module_Bus_Master.KickBusProcess = 0;
+	Module_Bus_Tasks();
+	ModuleBusUpdateTime = GetMsTicks() + Module_Bus_Master.StateUpdatePeriod;
+}
 void pmg_module_bus_scan_task(void *in);
 void pmg_module_bus_scan_task(void *in)
 {
+	scan_i2c_msg();
 	bool ret;
 	ret=Is_Module_Bus_Ready();
 	if(!ret)
@@ -138,6 +163,8 @@ void pmg_module_bus_scan_task(void *in)
 		Module_Bus_INT_Callback(eMODULE_PORT_7, NULL);
 		Slot_7_Int_Flag = 0;
 	}
+
+
 }
 /*================================================================*/
 /* end of low1.c */

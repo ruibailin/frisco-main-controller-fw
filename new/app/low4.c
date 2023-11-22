@@ -25,9 +25,32 @@
 	}
  *
  * -----------------------*/
+#include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
+#include "Module_Bus.h"
+#include "I2C_Bus_Master.h"
+extern I2C_Bus_Master 	Module_Bus_Master;
+extern I2C_Bus_Master	Sensor_Bus_Master;
+extern I2C_Bus_Master 	Panel_Bus_1_Master;
+extern I2C_Bus_Master 	Panel_Bus_2_Master;
+static void scan_i2c_msg(void);
+static void scan_i2c_msg()
+{
+	if(Panel_Bus_2_Master.RxData_Callback==0x0L)
+		return;
+	if(!(TimesUp(PanelBus2UpdateTime) || Panel_Bus_2_Master.KickBusProcess))
+		return;
+	Panel_Bus_2_Master.KickBusProcess = 0;
+	Panel_Bus_2_Tasks();
+	PanelBus2UpdateTime = GetMsTicks() + Panel_Bus_2_Master.StateUpdatePeriod;
+	return;
+}
+
 void pmg_panel2_bus_scan_task(void *in);
 void pmg_panel2_bus_scan_task(void *in)
 {
+	scan_i2c_msg();
 	bool ret;
 	ret=Is_Panel_Bus_2_Ready();
 	if(!ret)

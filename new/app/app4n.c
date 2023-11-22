@@ -268,15 +268,6 @@ void pmg_app44_task(void *in)
 		break;
 	case APP4_WORK_STATE:
 		eos_set_timer(APP4_NORMAL_WORK_MS);
-		if(!(TimesUp(ModuleBusUpdateTime) || Module_Bus_Master.KickBusProcess))
-			break;
-		if(IsSMutexLocked(&SPI2_LED2_Mutex))
-			break;
-		if(IsSMutexLocked(&Sensor_Bus_Master.Mutex))
-			break;
-		Module_Bus_Master.KickBusProcess = 0;
-		Module_Bus_Tasks();
-		ModuleBusUpdateTime = GetMsTicks() + Module_Bus_Master.StateUpdatePeriod;
 		break;
 	default:
 		break;
@@ -348,12 +339,7 @@ void pmg_app45_task(void *in)
 		break;
 	case APP4_WORK_STATE:
 		eos_set_timer(APP4_NORMAL_WORK_MS);
-		if(!(TimesUp(PanelBusUpdateTime) || Panel_Bus_1_Master.KickBusProcess))
-			break;
-		Panel_Bus_1_Master.KickBusProcess = 0;
-		Panel_Bus_1_Tasks();
-		PanelBusUpdateTime = GetMsTicks() + Panel_Bus_1_Master.StateUpdatePeriod;
-		break;
+
 	default:
 		break;
 	}
@@ -391,12 +377,6 @@ void pmg_app46_task(void *in)
 		break;
 	case APP4_WORK_STATE:
 		eos_set_timer(APP4_NORMAL_WORK_MS);
-		if(!(TimesUp(PanelBus2UpdateTime) || Panel_Bus_2_Master.KickBusProcess))
-			break;
-		Panel_Bus_2_Master.KickBusProcess = 0;
-		Panel_Bus_2_Tasks();
-		PanelBus2UpdateTime = GetMsTicks() + Panel_Bus_2_Master.StateUpdatePeriod;
-		break;
 	default:
 		break;
 	}
@@ -478,13 +458,6 @@ void pmg_app47_task(void *in)
 		break;
 	case APP4_WORK_STATE:
 		eos_set_timer(APP4_NORMAL_WORK_MS);
-		if(!(TimesUp(SensorBusUpdateTime) || Sensor_Bus_Master.KickBusProcess))
-			break;
-		if(Sensor_Bus_Master.LockedUp)
-			break;
-		Sensor_Bus_Master.KickBusProcess = 0;
-		Sensor_Bus_Tasks();
-		SensorBusUpdateTime = GetMsTicks() + Sensor_Bus_Master.StateUpdatePeriod;
 		break;
 	default:
 		break;
