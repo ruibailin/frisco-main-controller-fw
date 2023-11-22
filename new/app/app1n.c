@@ -11,6 +11,7 @@
 typedef enum
 {
 	APP1_INIT_STATE	= 0,
+	APP1_IDLE_STATE,
 	APP1_ENUM_STATE,
 	APP1_WORK_STATE =APP1_ENUM_STATE+20
 }App1_Machine_States;
@@ -29,6 +30,18 @@ extern uint8_t	Firmware_Install_Active_Flag;
 		}
  *
  ------------------------*/
+#include <stdint.h>
+#include "Module_Bus.h"
+extern MODULE_DRIVER Module_Driver;
+static int pmg_check_ethernet(void);
+static int pmg_check_ethernet()
+{
+	if(!Module_Driver.Ports[3].Is_Module_Attached)
+		return 0;
+	if(Module_Driver.Ports[3].Module.Module_Type_ID==5513)
+		return 1;
+	return 0;
+}
 void pmg_app10_task(void *in);
 void pmg_app10_task(void *in)
 {
@@ -46,7 +59,12 @@ void pmg_app10_task(void *in)
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP1_WORK_STATE);
+		ss=pmg_check_ethernet();
+		if(ss==0)
+			eos_set_state(APP1_IDLE_STATE);
+		else
+			eos_set_state(APP1_WORK_STATE);
+		break;
 		break;
 	case APP1_WORK_STATE:
 		eos_set_timer(15000);
@@ -72,6 +90,18 @@ void pmg_app10_task(void *in)
 			Update_Task_Runtime(Task_4G);
 		}
  * ----------------------*/
+extern uint8_t Get_Module_Port(uint16_t module_type);
+static int pmg_check_4g()
+{
+	uint8_t port;
+	port=Get_Module_Port(5760);
+	if(port!=0xFF)
+		return 1;
+	port=Get_Module_Port(5709);
+	if(port!=0xFF)
+		return 1;
+	return 0;
+}
 void pmg_app11_task(void *in);
 void pmg_app11_task(void *in)
 {
@@ -85,13 +115,16 @@ void pmg_app11_task(void *in)
 		break;
 	case APP1_ENUM_STATE:
 		eos_set_timer(APP1_CHECK_ENUM_MS);
-		if(!Is_4G_Module_Installed())
-			break;
 		int ret;
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP1_WORK_STATE);
+		ss=pmg_check_4g();
+		if(ss==0)
+			eos_set_state(APP1_IDLE_STATE);
+		else
+			eos_set_state(APP1_WORK_STATE);
+		break;
 		break;
 	case APP1_WORK_STATE:
 		eos_set_timer(LTE_4G_SAMPLE_PERIOD_MS);
@@ -194,7 +227,7 @@ void pmg_app13_task(void *in)
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP1_WORK_STATE);
+		eos_set_state(APP1_IDLE_STATE);
 		break;
 	case APP1_WORK_STATE:
 //		eos_set_timer(APP1_NORMAL_WORK_MS*100);
@@ -274,6 +307,15 @@ void pmg_app14_task(void *in)
 		}
  *
  * ---------------------*/
+extern uint8_t Get_Module_Port(uint16_t module_type);
+static int pmg_check_gpio()
+{
+	uint8_t port;
+	port=Get_Module_Port(5516);
+	if(port!=0xFF)
+		return 1;
+	return 0;
+}
 void pmg_app15_task(void *in);
 void pmg_app15_task(void *in)
 {
@@ -300,7 +342,11 @@ void pmg_app15_task(void *in)
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP1_WORK_STATE);
+		ss=pmg_check_gpio();
+		if(ss==0)
+			eos_set_state(APP1_IDLE_STATE);
+		else
+			eos_set_state(APP1_WORK_STATE);
 		break;
 	case APP1_WORK_STATE:
 		eos_set_timer(APP1_NORMAL_WORK_MS);

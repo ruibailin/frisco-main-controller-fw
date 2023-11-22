@@ -11,6 +11,7 @@
 typedef enum
 {
 	APP4_INIT_STATE	= 0,
+	APP4_IDLE_STATE,
 	APP4_ENUM_STATE,
 	APP4_WORK_STATE = APP4_ENUM_STATE+20
 }App4_Machine_States;
@@ -50,7 +51,7 @@ void pmg_app40_task(void *in)
 		eos_set_state(APP4_WORK_STATE);
 		break;
 	case APP4_WORK_STATE:
-		eos_set_timer(APP4_NORMAL_WORK_MS);
+		eos_set_timer(APP4_NORMAL_WORK_MS*100);
 		if(Firmware_Install_Active_Flag)
 			break;
 		if(IS_YDBG_FLAG_SET(Y_Debug_Enable_Module_UART_Log) && Is_Module_Uart_Passthru_Empty())

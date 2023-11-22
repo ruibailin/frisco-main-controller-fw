@@ -11,6 +11,7 @@
 typedef enum
 {
 	APP2_INIT_STATE	= 0,
+	APP2_IDLE_STATE,
 	APP2_ENUM_STATE,
 	APP2_WORK_STATE =APP2_ENUM_STATE+20
 }App2_Machine_States;
@@ -33,6 +34,14 @@ extern uint8_t	Firmware_Install_Active_Flag;
 		}
  *
  * -----------------------*/
+static int pmg_check_433()
+{
+	uint8_t port;
+	port=Get_Module_Port(5509);
+	if(port!=0xFF)
+		return 1;
+	return 0;
+}
 void pmg_app20_task(void *in);
 void pmg_app20_task(void *in)
 {
@@ -50,7 +59,11 @@ void pmg_app20_task(void *in)
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP2_WORK_STATE);
+		ss=pmg_check_433();
+		if(ss==0)
+			eos_set_state(APP2_IDLE_STATE);
+		else
+			eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
 		eos_set_timer(APP2_NORMAL_WORK_MS);
@@ -98,7 +111,11 @@ void pmg_app21_task(void *in)
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP2_WORK_STATE);
+		ss=pmg_check_433();
+		if(ss==0)
+			eos_set_state(APP2_IDLE_STATE);
+		else
+			eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
 		eos_set_timer(APP2_NORMAL_WORK_MS);
@@ -139,7 +156,7 @@ void pmg_app22_task(void *in)
 		eos_set_state(APP2_WORK_STATE);
 		break;
 	case APP2_WORK_STATE:
-		eos_set_timer(APP2_NORMAL_WORK_MS);
+		eos_set_timer(APP2_NORMAL_WORK_MS*100);
 		if(Firmware_Install_Active_Flag)
 			break;
 		pmm_check_change_task();
@@ -306,7 +323,10 @@ void pmg_app25_task(void *in)
 		if(Firmware_Install_Active_Flag)
 			break;
 		if(Demo_Mode_Active)
+		{
+			Update_Demo_Mode();
 			break;
+		}
 		UpdateSignState();
 		break;
 	default:
@@ -343,7 +363,7 @@ void pmg_app26_task(void *in)
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP2_WORK_STATE);
+		eos_set_state(APP2_IDLE_STATE);	//not used
 		break;
 	case APP2_WORK_STATE:
 		eos_set_timer(DEMO_MODE_UPDATE_PERIOD_MS);

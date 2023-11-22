@@ -11,8 +11,9 @@
 typedef enum
 {
 	APP0_INIT_STATE	= 0,
+	APP0_IDLE_STATE,
 	APP0_ENUM_STATE,
-	APP0_WORK_STATE
+	APP0_WORK_STATE	=APP0_ENUM_STATE+20
 }App0_Machine_States;
 #define APP0_WAIT_ENUM_MS		(1000*3)
 #define APP0_CHECK_ENUM_MS		1000
@@ -130,6 +131,36 @@ void pmg_app01_task(void *in)
 		}
  *
  * ----------------------*/
+#include <stdint.h>
+#include "Module_Bus.h"
+extern MODULE_DRIVER Module_Driver;
+static int pmg_check_ethernet(void);
+static int pmg_check_ethernet()
+{
+	if(!Module_Driver.Ports[3].Is_Module_Attached)
+		return 0;
+	if(Module_Driver.Ports[3].Module.Module_Type_ID==5513)
+		return 1;
+	return 0;
+}
+static int pmg_check_WiFi(void);
+static int pmg_check_WiFi()
+{
+	if(!Module_Driver.Ports[3].Is_Module_Attached)
+		return 0;
+	if(Module_Driver.Ports[3].Module.Module_Type_ID==5505)
+		return 1;
+	return 0;
+}
+
+static int need_usb_host_fs(void);
+static int need_usb_host_fs()
+{
+	int ret1,ret2;
+	ret1=pmg_check_ethernet();
+	ret2=pmg_check_WiFi();
+	return (ret1|ret2);
+}
 void pmg_app02_task(void *in);
 void pmg_app02_task(void *in)
 {
@@ -143,18 +174,24 @@ void pmg_app02_task(void *in)
 		break;
 	case APP0_ENUM_STATE:
 		eos_set_timer(APP0_CHECK_ENUM_MS);
-		if(!USB_Net_Host_Active)
-			break;
-		eos_set_timer(USB_HOST_UPDATE_TIME_MS);
 		int ret;
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP0_WORK_STATE);
+		ss=need_usb_host_fs();
+		if(ss==0)
+			eos_set_state(APP0_IDLE_STATE);
+		else
+		{
+			MX_USB_HOST_FS_Init();
+			eos_set_state(APP0_WORK_STATE);
+		}
 		break;
 	case APP0_WORK_STATE:
 		eos_set_timer(USB_HOST_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
+			break;
+		if(!USB_Net_Host_Active)
 			break;
 		MX_USB_FS_HOST_Process();
 		break;
@@ -189,20 +226,22 @@ void pmg_app03_task(void *in)
 		break;
 	case APP0_ENUM_STATE:
 		eos_set_timer(APP0_CHECK_ENUM_MS);
-		if(!Networking.Ethernet_Interface_Up)
-			break;
-		eos_set_timer(ETHERNET_UPDATE_TIME_MS);
 		int ret;
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP0_WORK_STATE);
+		ss=pmg_check_ethernet();
+		if(ss==0)
+			eos_set_state(APP0_IDLE_STATE);
+		else
+			eos_set_state(APP0_WORK_STATE);
 		break;
 	case APP0_WORK_STATE:
 		eos_set_timer(ETHERNET_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
-
+		if(!Networking.Ethernet_Interface_Up)
+			break;
 		Ethernet_Tasks();
 		break;
 	default:
@@ -243,21 +282,21 @@ void pmg_app04_task(void *in)
 		break;
 	case APP0_ENUM_STATE:
 		eos_set_timer(APP0_CHECK_ENUM_MS);
-		if(!Networking.Radar_Up)
-			break;
-		MX_USB_HOST_FS_Init();
-		if(!Networking.WIFI_Interface_Up)
-			break;
-		eos_set_timer(WIFI_UPDATE_TIME_MS);
 		int ret;
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP0_WORK_STATE);
+		ss=pmg_check_WiFi();
+		if(ss==0)
+			eos_set_state(APP0_IDLE_STATE);
+		else
+			eos_set_state(APP0_WORK_STATE);
 		break;
 	case APP0_WORK_STATE:
 		eos_set_timer(WIFI_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
+			break;
+		if(!Networking.WIFI_Interface_Up)
 			break;
 		WIFI_Tasks();
 		break;
@@ -278,6 +317,18 @@ void pmg_app04_task(void *in)
 			LTE_Update_Time = GetMsTicks() + LTE_UPDATE_TIME_MS;
 		}
  * ----------------------*/
+extern uint8_t Get_Module_Port(uint16_t module_type);
+static int pmg_check_4g()
+{
+	uint8_t port;
+	port=Get_Module_Port(5760);
+	if(port!=0xFF)
+		return 1;
+	port=Get_Module_Port(5709);
+	if(port!=0xFF)
+		return 1;
+	return 0;
+}
 void pmg_app05_task(void *in);
 void pmg_app05_task(void *in)
 {
@@ -291,17 +342,21 @@ void pmg_app05_task(void *in)
 		break;
 	case APP0_ENUM_STATE:
 		eos_set_timer(APP0_CHECK_ENUM_MS);
-		if(!Networking.LTE_Interface_Up)
-			break;
 		int ret;
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP0_WORK_STATE);
+		ss=pmg_check_4g();
+		if(ss==0)
+			eos_set_state(APP0_IDLE_STATE);
+		else
+			eos_set_state(APP0_WORK_STATE);
 		break;
 	case APP0_WORK_STATE:
 		eos_set_timer(LTE_UPDATE_TIME_MS);
 		if(Firmware_Install_Active_Flag)
+			break;
+		if(!Networking.LTE_Interface_Up)
 			break;
 		LTE_Tasks();
 		break;
@@ -366,6 +421,14 @@ void pmg_app06_task(void *in)
 			UnlockSMutex(&SPI2_LED2_Mutex, SPI_FLASH_MUTEX_TAG);
 		}
  * ----------------------*/
+static int pmg_check_BT()
+{
+	uint8_t port;
+	port=Get_Module_Port(5504);
+	if(port!=0xFF)
+		return 1;
+	return 0;
+}
 void pmg_app07_task(void *in);
 void pmg_app07_task(void *in)
 {
@@ -379,13 +442,15 @@ void pmg_app07_task(void *in)
 		break;
 	case APP0_ENUM_STATE:
 		eos_set_timer(APP0_CHECK_ENUM_MS);
-		if(!Is_Bluetooth_Module_Installed())
-			break;
 		int ret;
 		ret=sign_init_is_end(sinit_state);
 		if(!ret)
 			break;
-		eos_set_state(APP0_WORK_STATE);
+		ss=pmg_check_BT();
+		if(ss==0)
+			eos_set_state(APP0_IDLE_STATE);
+		else
+			eos_set_state(APP0_WORK_STATE);
 		break;
 	case APP0_WORK_STATE:
 		eos_set_timer(BLUETOOTH_SAMPLE_PERIOD_MS);
@@ -425,15 +490,15 @@ void pmg_app08_task(void *in)
 		break;
 	case APP0_ENUM_STATE:
 		eos_set_timer(APP0_CHECK_ENUM_MS);
-		uint8_t ret;
-		ret=Ethernet_Module_Installed();
-		if(!ret)
-			break;
 		int ret1;
 		ret1=sign_init_is_end(sinit_state);
 		if(!ret1)
 			break;
-		eos_set_state(APP0_WORK_STATE);
+		ss=pmg_check_ethernet();
+		if(ss==0)
+			eos_set_state(APP0_IDLE_STATE);
+		else
+			eos_set_state(APP0_WORK_STATE);
 		break;
 	case APP0_WORK_STATE:
 		eos_set_timer(Ethernet_SAMPLE_PERIOD_MS);

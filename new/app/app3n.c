@@ -11,6 +11,7 @@
 typedef enum
 {
 	APP3_INIT_STATE	= 0,
+	APP3_IDLE_STATE,
 	APP3_ENUM_STATE,
 	APP3_WORK_STATE = APP3_ENUM_STATE+20
 }App3_Machine_States;
