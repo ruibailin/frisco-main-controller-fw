@@ -569,6 +569,11 @@ void HAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd)
 #endif /* USE_HAL_HCD_REGISTER_CALLBACKS */
 
       __HAL_HCD_CLEAR_FLAG(hhcd, USB_OTG_GINTSTS_SOF);
+      int i;	//Steve Rui, Re-enable the NAK interrupt
+      for (i = 0; i < hhcd->Init.Host_channels; i++)
+      {
+    	  USBx_HC(i)->HCINTMSK |= USB_OTG_HCINT_NAK;
+      }
     }
 
     /* Handle Rx Queue Level Interrupts */
@@ -1358,7 +1363,6 @@ static void HCD_HC_IN_IRQHandler(HCD_HandleTypeDef *hhcd, uint8_t chnum)
              (hhcd->hc[ch_num].ep_type == EP_TYPE_BULK))
     {
       hhcd->hc[ch_num].ErrCnt = 0U;
-
       if (hhcd->Init.dma_enable == 0U)
       {
         hhcd->hc[ch_num].state = HC_NAK;
@@ -1370,6 +1374,7 @@ static void HCD_HC_IN_IRQHandler(HCD_HandleTypeDef *hhcd, uint8_t chnum)
       /* ... */
     }
     __HAL_HCD_CLEAR_HC_INT(ch_num, USB_OTG_HCINT_NAK);
+    USBx_HC(ch_num)->HCINTMSK &= ~USB_OTG_HCINT_NAK;	//Steve Rui,too many NAK interrupt
   }
   else
   {
