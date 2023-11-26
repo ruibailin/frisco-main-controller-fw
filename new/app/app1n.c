@@ -125,7 +125,6 @@ void pmg_app11_task(void *in)
 		else
 			eos_set_state(APP1_WORK_STATE);
 		break;
-		break;
 	case APP1_WORK_STATE:
 		eos_set_timer(LTE_4G_SAMPLE_PERIOD_MS);
 		if(Firmware_Install_Active_Flag)
