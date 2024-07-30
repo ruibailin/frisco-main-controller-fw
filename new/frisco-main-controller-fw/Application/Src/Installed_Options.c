@@ -302,10 +302,15 @@ void Log_Option(const AC_PMG_Option_Mod_t *popt)
 	char strval[16];
 
 	sprintf(strval, "%4d-%02d", popt->Model_Number, popt->Subtype);
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller", "Installed_Opt","Model Number:%s\r\n",strval);
 
 	formatlog("Main_Controller", "Installed_Opt","Port Number:%d\r\n", popt->Instance);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Installed_Opt,"Model Number:%s\r\n",strval);
 
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Installed_Opt,"Port Number:%d\r\n", popt->Instance);
+#endif
 	if(popt->Hardware_Version[0] == 255)
 	{
 		strncpy(strval, "N/A", 3);
@@ -315,7 +320,13 @@ void Log_Option(const AC_PMG_Option_Mod_t *popt)
 	{
 		sprintf(strval, "%2s", popt->Hardware_Version);
 	}
+
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller", "Installed_Opt","Hardware_Version:%s\r\n", strval);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Installed_Opt,"Hardware_Version:%s\r\n", strval);
+#endif
+
 	if(strncmp((const char*)popt->Serial_Number, "None", 4) == 0)
 	{
 		strncpy(strval, "N/A", 3);
@@ -326,7 +337,12 @@ void Log_Option(const AC_PMG_Option_Mod_t *popt)
 		strncpy(strval, (const char *)popt->Serial_Number, 8);
 		strval[8] = '\0';
 	}
+
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller", "Installed_Opt","Serial_Number:%s\r\n", strval);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Installed_Opt,"Serial_Number:%s\r\n", strval);
+#endif
 
 	if(popt->Firmware_Version_Major == 255)
 	{
@@ -337,7 +353,12 @@ void Log_Option(const AC_PMG_Option_Mod_t *popt)
 	{
 		sprintf(strval, "%d.%d.%d.%d", popt->Firmware_Version_Major, popt->Firmware_Version_Minor, popt->Firmware_Version_Sub, popt->Firmware_Version_Test);
 	}
+
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller", "Installed_Opt","Firmware Version:%s\r\n", strval);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Installed_Opt,"Firmware Version:%s\r\n", strval);
+#endif
 	if(popt->ModuleLib_Version_Major == 255)
 	{
 		strncpy(strval, "N/A", 3);
@@ -347,7 +368,13 @@ void Log_Option(const AC_PMG_Option_Mod_t *popt)
 	{
 		sprintf(strval, "%d.%d.%d.%d", popt->ModuleLib_Version_Major, popt->ModuleLib_Version_Minor, popt->ModuleLib_Version_Sub, popt->ModuleLib_Version_Test);
 	}
+
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller", "Installed_Opt","ModuleLib Version:%s\r\n", strval);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Installed_Opt,"ModuleLib Version:%s\r\n", strval);
+#endif
+
 }
 
 void Log_Installed_Options(void)

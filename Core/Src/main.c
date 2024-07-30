@@ -1732,7 +1732,7 @@ static void MX_GPIO_Init(void)
 void _Error_Handler(char *file, int line)
 {
   /* User can add his own implementation to report the HAL error return state */
-	formatlog("Main_Controller","Initialization","ERROR_HANDLER in %s, line %d", file, line);
+//	formatlog("Main_Controller","Initialization","ERROR_HANDLER in %s, line %d", file, line);
 	CAT24M01_Write(ERR_HDLR_FILENAME, (const uint8_t *)file, MIN(strlen(file), ERR_HDLR_FILENAME_SIZE));
 	CAT24M01_Write(ERR_HDLR_LINE_NO, (const uint8_t *)&line, ERR_HDLR_LINE_NO_SIZE);
 #ifdef RELEASE_BUILD

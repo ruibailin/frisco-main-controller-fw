@@ -24,13 +24,21 @@ static void main_log_register(void);
 static void main_log_register()
 {
 	  {
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		  formatlog("Main_Controller","Initialization","Init Reg Data\r\n");
+#else
+		  formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Init Reg Data\r\n");
+#endif
 		  uint8_t Registrataion_Data_Init_Retries = 5;
 		  while(!Init_Registration_Data())
 		  {
 			  if(Registrataion_Data_Init_Retries-- == 0)
 			  {
-				  formatlog("Main_Controller","Initialization","Giving up on initializing registration data.  Resetting\r\n");
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
+				  formatlog("Main_Controller","Initialization","Init Reg Data\r\n");
+#else
+				  formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Init Reg Data\r\n");
+#endif
 
 				  _Error_Handler(__FILE__, __LINE__);
 			  }
@@ -38,21 +46,48 @@ static void main_log_register()
 
 		  // Force str to be destroyed after logging.
 		  char str[16];
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		  formatlog("Main_Controller", "Mod_Info","Frisco Controller\r\n");
+#else
+		  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"Frisco Controller\r\n");
+#endif
 		  sprintf(str, "%d.%d.%d.%d", MAJOR_FW_VERSION, MINOR_FW_VERSION, SUB_FW_VERSION, TEST_FW_VERSION);
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		  formatlog("Main_Controller", "Mod_Info","Firmware Revision %s\r\n",str);
 		  formatlog("Main_Controller", "Mod_Info","Serial Number %8s\r\n",Regn_Data_Image.SerNum);
+#else
+		  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"Firmware Revision %s\r\n",str);
+		  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"Serial Number %8s\r\n",Regn_Data_Image.SerNum);
+#endif
 	  }
 #ifdef DISPLAY_PANEL_15_INCH
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
   formatlog("Main_Controller", "Mod_Info","15 INCH\r\n");
+#else
+  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"15 INCH\r\n");
+#endif
 #elif defined(DISPLAY_PANEL_18_INCH)
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
   formatlog("Main_Controller", "Mod_Info","18 INCH\r\n");
 #else
-  formatlog("Main_Controller", "Mod_Info","12 INCH\r\n");
+  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"18 INCH\r\n");
 #endif
+#else
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
+  formatlog("Main_Controller", "Mod_Info","12 INCH\r\n");
+#else
+  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"12 INCH\r\n");
+#endif
+#endif
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
   formatlog("Main_Controller", "Mod_Info","Parameter Map Major Version: 0x%08X\r\n", PARAM_MAP_VERSION_MAJOR);
   formatlog("Main_Controller", "Mod_Info","Parameter Map Incremental Version:  0x%08X\r\n", PARAM_MAP_VERSION_INCR);
   formatlog("Main_Controller", "Initialization","Init Complete\r\n");
+#else
+  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"Parameter Map Major Version: 0x%08X\r\n", PARAM_MAP_VERSION_MAJOR);
+  formatlog(MSG_MOD_ID_Main_Controller,  MSG_LOG_ID_Mod_Info,"Parameter Map Incremental Version:  0x%08X\r\n", PARAM_MAP_VERSION_INCR);
+  formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Init Complete\r\n");
+#endif
 }
 extern uint8_t RunHardwareTests(uint8_t TestLevel);
 static void main_hw_test(void);
@@ -64,11 +99,19 @@ static void main_hw_test()
 		  if(i < 10)
 		  {
 			  HAL_Delay(1000);
-			  formatlog("Main_Controller","Initialization","Retrying Hardware Tests\r\n");
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
+			  formatlog("Main_Controller", "Initialization","Retrying Hardware Tests\r\n");
+#else
+			  formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Retrying Hardware Tests\r\n");
+#endif
 		  }
 		  else
 		  {
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			  formatlog("Main_Controller","Initialization","Critical System Failure--Shutting Down!\r\n");
+#else
+			  formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Critical System Failure--Shutting Down!\r\n");
+#endif
 			  exit(1);
 		  }
 	}

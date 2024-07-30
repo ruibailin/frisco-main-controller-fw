@@ -226,8 +226,10 @@ uint8_t Update_Data_Logger(void);
 
  volatile uint32_t Reset_Reason = 0;
 
+#include "FW_Version.h"
 void LogResetReason(uint32_t rcc_csr)
 {
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	if(rcc_csr & (1<<31)) formatlog("Main_Controller","Initialization","Reset Reason:Low-power reset\r\n");
 	if(rcc_csr & (1<<30)) formatlog("Main_Controller","Initialization","Reset Reason:Window watchdog reset\r\n");
 	if(rcc_csr & (1<<29)) formatlog("Main_Controller","Initialization","Reset Reason:Independent watchdog reset\r\n");
@@ -235,6 +237,15 @@ void LogResetReason(uint32_t rcc_csr)
 	if(rcc_csr & (1<<27)) formatlog("Main_Controller","Initialization","Reset Reason:Power-on/Power-down reset\r\n");
 	if(rcc_csr & (1<<26)) formatlog("Main_Controller","Initialization","Reset Reason:Pin reset\r\n");
 	if(rcc_csr & (1<<25)) formatlog("Main_Controller","Initialization","Reset Reason:Brown out reset\r\n");
+#else
+	if(rcc_csr & (1<<31)) formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Reset Reason:Low-power reset\r\n");
+	if(rcc_csr & (1<<30)) formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Reset Reason:Window watchdog reset\r\n");
+	if(rcc_csr & (1<<29)) formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Reset Reason:Independent watchdog reset\r\n");
+	if(rcc_csr & (1<<28)) formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Reset Reason:Software reset\r\n");
+	if(rcc_csr & (1<<27)) formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Reset Reason:Power-on/Power-down reset\r\n");
+	if(rcc_csr & (1<<26)) formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Reset Reason:Pin reset\r\n");
+	if(rcc_csr & (1<<25)) formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Reset Reason:Brown out reset\r\n");
+#endif
 	Reset_Reason = rcc_csr;
 }
 
@@ -254,14 +265,21 @@ void Init_Task_Monitor(void)
 	memset(Task_Runtimes, 0, sizeof(Task_Runtimes));
 }
 
+extern int app_easter_egg;
  void Monitor_Task(Tasks_Enum_t task)
 {
+	if(app_easter_egg == 0)
+		return;	//only run when debug
+
 	TaskStartTime = pmdGetMsTicks();
 	CurTask = task;
 }
 
  void Update_Task_Runtime(Tasks_Enum_t task)
 {
+	if(app_easter_egg == 0)
+		return;	//only run when debug
+
 	if(task < Task_Num_Tasks)
 	{
 		if(Task_Runtimes[task].Runtime)
@@ -276,7 +294,11 @@ void Init_Task_Monitor(void)
 				Task_Runtimes[task].Maxtime = runtime;
 				if(runtime > 5000)
 				{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 					formatlog("Main_Controller","Runtime_Task","WARNING:  Excessive Runtime Task %d\r\n", task);
+#else
+					formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Runtime_Task,"WARNING:  Excessive Runtime Task %d\r\n", task);
+#endif
 				}
 			}
 		}
@@ -298,6 +320,8 @@ void Init_Task_Monitor(void)
 void Print_Task_Runtimes(void)//VR NOTE: Come back later
 {
 	uint8_t i;
+	if(app_easter_egg == 0)
+		return;	//only run when debug
 
 	aci_print("\r\n    Task Runtimes\r\n-------------------------\r\n");
 	aci_print(" Task Name             Avg Runtime (ms*%d)   Runcount   Total Runtime (ms)  Max Runtime\r\n", 1 << TASK_RUNTIME_FP_DIGITS);
@@ -533,8 +557,13 @@ void RunApplication(void)
 				if((sta_no_work&0x1FFF)==0)
 				{
 					sta_no_work=0;
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 					formatlog("Main_Controller","Stats","Sensor Bus,locked by %lx!Stats Port work %d!\r\n",\
 						Sensor_Bus_Master.Mutex.Lock_Client,sta_work);
+#else
+					formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Stats,"Sensor Bus,locked by %lx!Stats Port work %d!\r\n",\
+						Sensor_Bus_Master.Mutex.Lock_Client,sta_work);
+#endif
 					sta_work=0;
 				}
 			}
@@ -1063,7 +1092,11 @@ void Low_Level_App_Update(void)
 	{
 		//if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 		//{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","I1\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"I1\r\n");
+#endif
 		//}
 		Module_Bus_INT_Callback(eMODULE_PORT_1, NULL);
 		Slot_1_Int_Flag = 0;
@@ -1075,7 +1108,11 @@ void Low_Level_App_Update(void)
 	{
 		//if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 		//{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","I2\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"I2\r\n");
+#endif
 		//}
 		Module_Bus_INT_Callback(eMODULE_PORT_2, NULL);
 		Slot_2_Int_Flag = 0;
@@ -1087,7 +1124,11 @@ void Low_Level_App_Update(void)
 	{
 		//if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 		//{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","I3\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"I3\r\n");
+#endif
 		//}
 		Module_Bus_INT_Callback(eMODULE_PORT_3, NULL);
 		Slot_3_Int_Flag = 0;
@@ -1099,7 +1140,11 @@ void Low_Level_App_Update(void)
 	{
 		//if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 		//{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","I4\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"I4\r\n");
+#endif
 		//}
 		Module_Bus_INT_Callback(eMODULE_PORT_4, NULL);
 		Slot_4_Int_Flag = 0;
@@ -1111,7 +1156,11 @@ void Low_Level_App_Update(void)
 	{
 		//if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 	//	{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","I5\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"I5\r\n");
+#endif
 	//	}
 		Module_Bus_INT_Callback(eMODULE_PORT_5, NULL);
 		Slot_5_Int_Flag = 0;
@@ -1123,7 +1172,11 @@ void Low_Level_App_Update(void)
 	{
 		//if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 	//	{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","I6\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"I6\r\n");
+#endif
 	//	}
 		Module_Bus_INT_Callback(eMODULE_PORT_6, NULL);
 		Slot_6_Int_Flag = 0;
@@ -1135,7 +1188,11 @@ void Low_Level_App_Update(void)
 	{
 	//	if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 	//	{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","I7\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"I7\r\n");
+#endif
 	//	}
 		Module_Bus_INT_Callback(eMODULE_PORT_7, NULL);
 		Slot_7_Int_Flag = 0;
@@ -1154,7 +1211,11 @@ void Low_Level_App_Update(void)
 	{
 		if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 		{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","IMPPT\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"IMPPT\r\n");
+#endif
 		}
 		Sensor_Bus_INT_Callback();
 		MPPT_Int_Flag = 0;
@@ -1166,7 +1227,11 @@ void Low_Level_App_Update(void)
 	{
 		//if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 	//	{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","ILED1\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"ILED1\r\n");
+#endif
 	//	}
 		Panel_Bus_1_INT_Callback();
 		LED_1_Int_Flag = 0;
@@ -1178,7 +1243,11 @@ void Low_Level_App_Update(void)
 	{
 	//	if(IS_XDBG_FLAG_SET(X_Debug_Interrupts))
 	//	{
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 			formatlog("Main_Controller","Interrupt","ILED2\r\n");
+#else
+			formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Interrupt,"ILED2\r\n");
+#endif
 	//	}
 		Panel_Bus_2_INT_Callback();
 		LED_2_Int_Flag = 0;

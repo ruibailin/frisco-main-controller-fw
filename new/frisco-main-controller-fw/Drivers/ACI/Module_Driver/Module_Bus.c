@@ -119,22 +119,41 @@ void Apply_Module_Bus_CRC(MASTER_BUS_PACKET *packet)
 	packet->Data[packet->Data_Size + I2C_PACKET_HEADER_SIZE] = Get_CRC8(packet->Data, packet->Data_Size + I2C_PACKET_HEADER_SIZE);
 }
 
+#include "FW_Version.h"
 void Log_Module_Info(eMODULE_PORTS port)
 {
 	MODULE *mod = &Module_Driver.Ports[port].Module;
 	char str[100];
 
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Mod_Info","Got Port Data for Port %d:\r\n", port+1);
 	formatlog("Main_Controller","Mod_Info","Module Type ID:%-8ld\r\n", mod->Module_Type_ID);
 	formatlog("Main_Controller","Mod_Info","Module SubType ID:%-8ld\r\n", mod->Module_SubType_ID);
 	formatlog("Main_Controller","Mod_Info","Module I2C Address:0x%02X\r\n", mod->Module_I2C_Address);
 	formatlog("Main_Controller","Mod_Info","Module Name:   %-23s\r\n", mod->Module_Name);
 	formatlog("Main_Controller","Mod_Info","HW Revision:%-16s\r\n", mod->HW_Revision);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"Got Port Data for Port %d:\r\n", port+1);
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"Module Type ID:%-8ld\r\n", mod->Module_Type_ID);
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"Module SubType ID:%-8ld\r\n", mod->Module_SubType_ID);
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"Module I2C Address:0x%02X\r\n", mod->Module_I2C_Address);
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"Module Name:   %-23s\r\n", mod->Module_Name);
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"HW Revision:%-16s\r\n", mod->HW_Revision);
+#endif
 	sprintf(str, "%i.%i.%i.%i", mod->FW_Revision[0], mod->FW_Revision[1], mod->FW_Revision[2], mod->FW_Revision[3]);
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Mod_Info","FW Revision:%-23s\r\n", str);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"FW Revision:%-23s\r\n", str);
+#endif
 	sprintf(str, "%i.%i.%i.%i", mod->ModLib_FW_Revision[0], mod->ModLib_FW_Revision[1], mod->ModLib_FW_Revision[2], mod->ModLib_FW_Revision[3]);
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Mod_Info","ModuleLib FW Revision:   %s\r\n", str);
 	formatlog("Main_Controller","Mod_Info","Serial Number:%-9s\r\n", mod->Serial_Number);
+#else
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"ModuleLib FW Revision:   %s\r\n", str);
+	formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Info,"Serial Number:%-9s\r\n", mod->Serial_Number);
+#endif
 }
 
 
@@ -245,12 +264,20 @@ void I2C_Bus_Continue_Process_Message(I2C_Bus_Master *bm, uint8_t port, uint8_t 
 	{
 	// Handle generic responses
 	case dmc_Start_Firmware_Update:
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Main_Controller","Mod_Bus","Received Firmware Update Request\r\n");
+#else
+		formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Bus,"Received Firmware Update Request\r\n");
+#endif
 		Process_Firmware_Update_Request(bm, port, packet);
 		eos_async_send(9,EOS_USER_EVENT,port,packet);
 		break;
 	case dmc_Timestamp:
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Main_Controller","Mod_Bus","Received Timestamp Request\r\n");
+#else
+		formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Bus,"Received Timestamp Request\r\n");
+#endif
 		Process_Timestamp_Request(bm, port, packet);
 		break;
 	case 0x15:
@@ -261,10 +288,18 @@ void I2C_Bus_Continue_Process_Message(I2C_Bus_Master *bm, uint8_t port, uint8_t 
 		char *msg;
 		msg = (char *)packet+sizeof(I2C_Packet_Header_Type);
 		check_msg_char(msg,len);
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Main_Controller","Mod_Bus","Module %d Print,%s\r\n",port, msg);
+#else
+		formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Bus,"Module %d Print,%s\r\n",port, msg);
+#endif
 		break;
 	case dmc_PowerCommand:
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Main_Controller","Mod_Bus","Received Power Command Message\r\n");
+#else
+		formatlog(MSG_MOD_ID_Main_Controller,MSG_LOG_ID_Mod_Bus,"Received Power Command Message\r\n");
+#endif
 		Process_Module_Power_Command_Message(bm, port, packet);
 		break;
 	default:

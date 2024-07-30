@@ -37,6 +37,7 @@ int I2C_Bus_Get_Task_Id(I2C_Bus_Master *bm)
 	return pid;		//Sersor Bus
 }
 
+#include "FW_Version.h"
 #include "Debug_Log_Msg.h"
 void i2c_bus_send_msg(I2C_Bus_Master *bm,uint8_t port, uint8_t *packet);
 void i2c_bus_send_msg(I2C_Bus_Master *bm,uint8_t port, uint8_t *packet)
@@ -45,8 +46,11 @@ void i2c_bus_send_msg(I2C_Bus_Master *bm,uint8_t port, uint8_t *packet)
 	ll=(int)port;			//to send port number
 	ll &= 0xFF;
 	dest=I2C_Bus_Get_Task_Id(bm);
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","I2C","Receive A Packet!");
 	printf("%s %d %d\r\n",bm->Name,port,dest);
+#else
+#endif
 	eos_async_send(dest,EOS_I2C_BUS_EVENT,ll,packet);
 }
 /*------------------------------------*/
@@ -77,8 +81,11 @@ void i2c_bus_deal_msg(void *in)
 		return;
 	bm=Task_Get_I2C_Bus_Master();
 	ll=eos_get_length();
+#if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","I2C","Deal A Packet!");
 	printf("%s %d\r\n",bm->Name,ll);
+#else
+#endif
 	I2C_Bus_Continue_Process_Message(bm,ll,in);
 }
 /*================================================================*/

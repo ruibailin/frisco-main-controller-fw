@@ -18,6 +18,7 @@ typedef enum
 #define APP5_CHECK_ENUM_MS		1000
 #define APP5_NORMAL_WORK_MS		1000
 extern uint8_t	Firmware_Install_Active_Flag;
+extern void vgpio_task(void);
 /*------------------------------------*/
 void pmg_app50_task(void *in);
 void pmg_app50_task(void *in)
@@ -42,6 +43,7 @@ void pmg_app50_task(void *in)
 		eos_set_timer(APP5_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
+		vgpio_task();
 		break;
 	default:
 		break;

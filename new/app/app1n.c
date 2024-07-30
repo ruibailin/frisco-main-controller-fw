@@ -442,6 +442,8 @@ void pmg_app16_task(void *in)
 		}
  *
  * ---------------------*/
+int sta_no_work=0;
+int sta_work=0;
 void pmg_app17_task(void *in);
 void pmg_app17_task(void *in)
 {
@@ -476,12 +478,20 @@ void pmg_app17_task(void *in)
 		eos_set_timer(APP1_NORMAL_WORK_MS);
 		if(Firmware_Install_Active_Flag)
 			break;
+		sta_no_work++;
 		if(!LockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG))
 			break;
 		if(!LockSMutex(&SPI2_LED2_Mutex, SPI_FLASH_MUTEX_TAG))
 		{
 			UnlockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG);
 			break;
+		}
+		sta_no_work--;
+		sta_work++;
+		if((sta_no_work&0x1FFF)==0)
+		{
+			sta_no_work=0;
+			sta_work=0;
 		}
 		Stats_Port_Tasks();
 		UnlockSMutex(&SPI2_LED2_Mutex, SPI_FLASH_MUTEX_TAG);

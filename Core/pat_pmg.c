@@ -153,7 +153,7 @@ PAT PATPool[MAX_PAT_NUM]={
 /*048*/  {"app48", 	&pmg_app48_task,	MSG,		0},
 /*049*/  {"app49", 	&pmg_app49_task,	MSG,		0},
 
-/*050*/  {"Null Pro", 	&null_p,	0,		0},
+/*050*/  {"app50", 	&pmg_app50_task,	MSG,		0},
 /*051*/  {"Null Pro", 	&null_p,	0,		0},
 /*052*/  {"Null Pro", 	&null_p,	0,		0},
 /*053*/  {"Null Pro", 	&null_p,	0,		0},
