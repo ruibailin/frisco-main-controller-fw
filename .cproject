@@ -426,7 +426,6 @@
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c|ACI/Firmware_Update/Spi_Flash_Target.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
-						<entry excluding="app/|bsp/|eos/rbl/a64/|eos/rbl/c64/|eos/rbl/l64/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1100,7 +1099,6 @@
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
-						<entry excluding="app/|bsp/|eos/rbl/l64/|eos/rbl/a64/|eos/rbl/c64/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1651,7 +1649,6 @@
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
-						<entry excluding="app/|bsp/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2190,7 +2187,6 @@
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
-						<entry excluding="app/|bsp/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2372,6 +2368,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/frisco-main-controller-fw/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/frisco-main-controller-fw}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/frisco-main-controller-fw/old/Frisco_Controller_easyGUI_18_Inch}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/frisco-main-controller-fw/eos}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includefiles.1509143254" name="Include files (-include)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includefiles" useByScannerDiscovery="false" valueType="includeFiles"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1701665324" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
@@ -2735,6 +2732,12 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="eos/1bsp/src/1bsp"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="eos/2lib/src/2lib"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="eos/3eos/src/3eos"/>
+						<entry excluding="have/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="eos/4rbl/src/4rbl"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="eos/5soc/src/5soc"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="eos/6cpu/src/6cpu"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="new"/>
 						<entry excluding="Src/Sign_Init.c|Src/Animations_15_Inch.c|Src/Graphics_15_Inch.c|Src/Installed_Options.c|Src/Animations_12_Inch.c|Src/Graphics_12_Inch.c|Src/App.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Application"/>
 						<entry excluding="Module_Driver/Module_Bus.c|Module_Driver/Reg_I2C_Master.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Drivers/ACI"/>
@@ -2742,7 +2745,7 @@
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
-						<entry excluding="app/|bsp/|eos/rbl/l64/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3174,7 +3177,6 @@
 						<entry excluding="App/lwip.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/LWIP"/>
 						<entry excluding="Third_Party/FatFs/src/ff.c|ST/STM32_USB_Host_Library/|Third_Party/LwIP/src/apps/http/fs.c|ACI/Networking/fsdata_custom.c|ACI/Firmware_Update/Spi_Flash_Target.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/Middlewares"/>
 						<entry excluding="App/|Target/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="old/USB_HOST"/>
-						<entry excluding="app/|bsp/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

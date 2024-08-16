@@ -31,14 +31,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>eos</name>
+			<type>2</type>
+			<location>G:/Nanjing</location>
+		</link>
+		<link>
 			<name>old</name>
 			<type>2</type>
 			<location>G:/Frisco-web/mc/frisco-main-controller-fw</location>
-		</link>
-		<link>
-			<name>src</name>
-			<type>2</type>
-			<location>G:/Spokane/Spokane_Application/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>
