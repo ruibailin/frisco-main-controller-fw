@@ -202,7 +202,7 @@ extern void pmm_check_change_task(void);
 #define APPN_CHECK_ENUM_MS		1000
 #define APPN_NORMAL_WORK_MS		10
 
-#include "eos/eos.h"
+#include "3eos/src/3eos/eos.h"
 #include "../Sign_Init/init.h"
 #include "../Sign_Init/1imp.h"
 /*================================================================*/

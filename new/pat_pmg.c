@@ -13,7 +13,7 @@
  */
 
 
-#include "../src/eos/kernel/process/basic/pat.h"
+#include "3eos/src/3eos/kernel/process/basic/pat.h"
 /*================================================================*/
 /*------------------------------------*/
 static void null_p(void *in)

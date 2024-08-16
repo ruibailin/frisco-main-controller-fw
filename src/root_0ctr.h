@@ -17,6 +17,8 @@
 #ifndef Core_0CTR_H_
 #define Core_0CTR_H_
 /*================================================================*/
+#define _OS_NONE_		1
+#define _OS_NONE_A32_	1
 #define BSP_ACI_4G_NM	0		//NimbeLink
 #define BSP_ACI_4G_EVL	0
 #if BSP_ACI_4G_EVL

@@ -253,7 +253,7 @@ uint8_t Process_Message(I2C_Bus_Master *bm, uint8_t port, uint8_t *packet)
 	return result;
 }
 
-#include "eos/eos.h"
+#include "3eos/src/3eos/eos.h"
 void I2C_Bus_Continue_Process_Message(I2C_Bus_Master *bm, uint8_t port, uint8_t *packet)
 {
 	int len;
