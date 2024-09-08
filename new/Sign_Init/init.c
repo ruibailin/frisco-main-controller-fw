@@ -38,6 +38,7 @@ void sign_wait_init()
 
 /*------------------------------------*/
 #include "FW_Version.h"
+#include "init.h"
 int sign_init_Start(int init_state)
 {
 	if(init_state!=signinit_Start)
@@ -49,8 +50,9 @@ int sign_init_Start(int init_state)
 	last_init_time = GetMsTicks();
 	Frisco.Modules = Init_Module_Driver();
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Init Application Start.\r\n" );
+	formatlog("Main_Controller","Initialization","Init Application Start.\r\n" );
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Init Application Start.\r\n" );
 #endif
 	// Clear task runtimes array
 	memset(Task_Runtimes, 0, sizeof(Task_Runtimes));
@@ -70,8 +72,9 @@ int sign_init_Init_Password(int init_state)
 	{
 		// Init the password.
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Initialization","Initializing the Password.\r\n");
+		formatlog("Main_Controller","Initialization","Initializing the Password.\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing the Password.\r\n" );
 #endif
 		Init_Password();
 		UnlockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG);
@@ -94,8 +97,9 @@ int sign_init_CommChipInit(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Frisco COMM.\r\n" );
+	formatlog("Main_Controller","Initialization","Initializing Frisco COMM.\r\n" );
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Frisco COMM.\r\n" );
 #endif
 	LogStartupTime(7);
 	++init_state;
@@ -109,8 +113,9 @@ int sign_init_RS232Init(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing External RS232 Port.\r\n" );
+	formatlog("Main_Controller","Initialization","Initializing External RS232 Port.\r\n" );
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing External RS232 Port.\r\n" );
 #endif
 	Init_External_RS232();
 	LogStartupTime(6);
@@ -126,8 +131,9 @@ int sign_init_InitSensorBus(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Sensor Bus\r\n" );
+	formatlog("Main_Controller","Initialization","Initializing Sensor Bus\r\n" );
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Sensor Bus\r\n" );
 #endif
 	Init_Sensor_Bus();
 	LogStartupTime(7);
@@ -145,8 +151,9 @@ int sign_init_InitAppData(int init_state)
 	if(LockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG))
 	{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Initialization","Initializing App Data\r\n" );
+		formatlog("Main_Controller","Initialization","Initializing App Data\r\n" );
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing App Data\r\n" );
 #endif
 		Init_App_Data();
 		UnlockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG);
@@ -170,8 +177,9 @@ int sign_init_InituSD(int init_state)
 	}
 	// NOTE: uSD must be checked and mounted before 'Init_Frisco()' and 'Init_Camera()' as they will init different if uSD is present
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing uSD\r\n");
+	formatlog("Main_Controller","Initialization","Initializing uSD\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing uSD\r\n");
 #endif
 	Init_uSD();
 	Init_uSD_Updater();
@@ -188,8 +196,9 @@ int sign_init_InitFrisco(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Frisco\r\n");
+	formatlog("Main_Controller","Initialization","Initializing Frisco\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Frisco\r\n");
 #endif
 	if(LockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG))
 	{
@@ -217,8 +226,9 @@ int sign_init_MPPTInit(int init_state)
 	if(LockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG))
 	{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Initialization","Initializing MPPT\r\n");
+		formatlog("Main_Controller","Initialization","Initializing MPPT\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing MPPT\r\n");
 #endif
 		Init_Internal_Charger();
 		UnlockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG);
@@ -241,8 +251,9 @@ int sign_init_InitFriscoCommBus(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Frisco Comm Bus\r\n");
+	formatlog("Main_Controller","Initialization","Initializing Frisco Comm Bus\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Frisco Comm Bus\r\n");
 #endif
 	Init_Frisco_Comm_Bus();
 	LogStartupTime(6);
@@ -259,8 +270,9 @@ int sign_init_InitCamera(int init_state)
 	}
 
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Camera\r\n");
+	formatlog("Main_Controller","Initialization","Initializing Camera\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Camera\r\n");
 #endif
 	Init_Camera();
 	LogStartupTime(10);
@@ -275,8 +287,9 @@ int sign_init_InitDisplay(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Display\r\n");
+	formatlog("Main_Controller","Initialization","Initializing Display\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Display\r\n");
 #endif
 	Init_Display();
 	LogStartupTime(7);
@@ -294,8 +307,9 @@ int sign_init_InitLightSensorManager(int init_state)
 	if(LockSMutex(&Sensor_Bus_Master.Mutex, ALS_MUTEX_TAG))
 	{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Initialization","Initializing Ambient Light Sensor\r\n");
+		formatlog("Main_Controller","Initialization","Initializing Ambient Light Sensor\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Ambient Light Sensor\r\n");
 #endif
 		Init_Light_Sensor_Manager();
 		++init_state;
@@ -319,8 +333,9 @@ int sign_init_InitSignState(int init_state)
 	}
 
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Sign State\r\n");
+	formatlog("Main_Controller","Initialization","Initializing Sign State\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Sign State\r\n");
 #endif
 	InitSignState();
 	LogStartupTime(7);
@@ -338,8 +353,9 @@ int sign_init_TurnOnRadarPower(int init_state)
 	if(App_Data.Radar_Enable)
 	{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Initialization","Powering Up Radar\r\n");
+		formatlog("Main_Controller","Initialization","Powering Up Radar\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Powering Up Radar\r\n");
 #endif
 		Turn_On_Radar_Power();
 		LogStartupTime(8);
@@ -357,8 +373,9 @@ int sign_init_RtcInit(int init_state)
 	}
 
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing RTC\r\n");
+	formatlog("Main_Controller","Initialization","Initializing RTC\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing RTC\r\n");
 #endif
 	RtcInit();
 	LogStartupTime(8);
@@ -374,8 +391,9 @@ int sign_init_InitTempSensor(int init_state)
 	}
 
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Initialization","Initializing Temp Sensor\r\n");
+	formatlog("Main_Controller","Initialization","Initializing Temp Sensor\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Temp Sensor\r\n");
 #endif
 	Init_Temp_Sensor();
 	LogStartupTime(7);
@@ -394,8 +412,9 @@ int sign_init_Ymodem_Init(int init_state)
 	if(LockSMutex(&SPI2_LED2_Mutex, SPI_FLASH_MUTEX_TAG))
 	{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Initialization","Initializing Ymodem Download Capabilities\r\n");
+		formatlog("Main_Controller","Initialization","Initializing Ymodem Download Capabilities\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Ymodem Download Capabilities\r\n");
 #endif
 		YmodemInit();
 		UnlockSMutex(&SPI2_LED2_Mutex, SPI_FLASH_MUTEX_TAG);
@@ -420,6 +439,8 @@ int sign_init_StartEnumerations(int init_state)
 	init_state = signinit_StartModuleBusEnumeration;
 	return init_state;
 }
+
+extern void LogResetReason(uint32_t rcc_csr);
 int sign_init_StartModuleBusEnumeration(int init_state)
 {
 	if(init_state!=signinit_StartModuleBusEnumeration)
@@ -430,22 +451,25 @@ int sign_init_StartModuleBusEnumeration(int init_state)
 	else
 	{
 		uint32_t Reset_Reason = Get_Reset_Reason();
+		LogResetReason(Reset_Reason);
+
 		//if(Reset_Reason & RCC_CSR_PORRSTF) // When software reset do not show message "Starting PMG" // ZGy_Note
 		//{
 			if(!Is_uSD_Mounted())
 			{
-				Show_Text_Screen("Error:", "SD Card", 2);
+				Show_Text_Screen("Error:","SD Card", 2);
 			}
 			else
 			{
 				Set_Display_Flashing(true); // ZGy_Note
-				Show_Text_Screen("Starting", "PMG", 2);
+				Show_Text_Screen("Starting","PMG", 2);
 			}
 		//}
 		moduleInitTimestamp = GetMsTicks();
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Enumeration","Enumerate Module Bus\r\n");
+		formatlog("Main_Controller","Enumeration","Enumerate Module Bus\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Enumeration,"Enumerate Module Bus\r\n");
 #endif
 		init_state = signinit_ModuleBusEnum;
 
@@ -463,8 +487,9 @@ int sign_init_ModuleBusEnum(int init_state)
 	{
 		// Module Bus Enumeration Complete
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Enumeration","Completed Module Bus Enumeration\r\n");
+		formatlog("Main_Controller","Enumeration","Completed Module Bus Enumeration\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Enumeration,"Completed Module Bus Enumeration\r\n");
 #endif
 		LogStartupTime(6);
 		init_state = signinit_StartPanelEnumeration;
@@ -496,8 +521,9 @@ int sign_init_StartPanelEnumeration(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Enumeration","Enumerate Display Panel Bus\r\n");
+	formatlog("Main_Controller","Enumeration","Enumerate Display Panel Bus\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Enumeration,"Enumerate Display Panel Bus\r\n");
 #endif
 	// This timeout shouldn't be necessary--something must be delaying display startup.
 	//HAL_Delay(PANEL_BUS_ENUM_START_DELAY_MS);
@@ -550,11 +576,12 @@ int sign_init_PanelEnumTimedOut(int init_state)
 		sign_wait_init();
 		return init_state;
 	}
-	Show_Text_Screen("Panel", "Timeout", 2);
+	Show_Text_Screen("Panel","Timeout", 2);
 	moduleInitTimestamp = GetMsTicks();
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Initialization","ERROR: Display Panel Enumeration Timed Out.\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"ERROR: Display Panel Enumeration Timed Out.\r\n");
 #endif
 	LogStartupTime(10);
 	init_state = signinit_StartCommChipEnum;
@@ -569,8 +596,9 @@ int sign_init_StartCommChipEnum(int init_state)
 		return init_state;
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller", "Enumeration","Enumerating Frisco COM\r\n");
+	formatlog("Main_Controller","Enumeration","Enumerating Frisco COM\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Enumeration,"Enumerating Frisco COM\r\n");
 #endif
 	init_state = signinit_CommChipEnum;
 
@@ -588,8 +616,9 @@ int sign_init_CommChipEnum(int init_state)
 	{
 		LogStartupTime(7);
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Enumeration","Frisco COM Enumeration Complete.\r\n");
+		formatlog("Main_Controller","Enumeration","Frisco COM Enumeration Complete.\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Enumeration,"Frisco COM Enumeration Complete.\r\n");
 #endif
 		++init_state;
 		MPPT_StartTime =  GetMsTicks(); // ZGy_Note_MPP
@@ -613,8 +642,9 @@ int sign_init_StartMPPTEnumeration(int init_state)
 	{
 		MPPT_StartTime =  GetMsTicks(); // ZGy_Note_MPPT
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Power_Manager", "Mod_Info","Testing for Power Manager presence.\r\n");
+		formatlog("Power_Manager","Mod_Info","Testing for Power Manager presence.\r\n");
 #else
+		formatlog(MSG_MOD_ID_Power_Manager, MSG_LOG_ID_Mod_Info,"Testing for Power Manager presence.\r\n");
 #endif
 		ProbeIf_MPPT_I2C_Present();
 		++init_state;
@@ -640,8 +670,9 @@ int sign_init_TestForMPPTPresence(int init_state)
 		if(CheckIf_MPPT_I2C_Present())      // ZGy_Note_MPPT
 		{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-			formatlog("Power_Manager", "Mod_Info","Power Manager present.\r\n");
+			formatlog("Power_Manager","Mod_Info","Power Manager present.\r\n");
 #else
+			formatlog(MSG_MOD_ID_Power_Manager, MSG_LOG_ID_Mod_Info,"Power Manager present.\r\n");
 #endif
 
 			++init_state;
@@ -651,8 +682,9 @@ int sign_init_TestForMPPTPresence(int init_state)
 		else if(TimedOut(MPPT_StartTime, MPPT_CHECKIF_PRESERNT_TIMEOUT_ms))
 		{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-			formatlog("Power_Manager", "Mod_Info","MPPT Power Manager Not Present\r\n");
+			formatlog("Power_Manager","Mod_Info","MPPT Power Manager Not Present\r\n");
 #else
+			formatlog(MSG_MOD_ID_Power_Manager, MSG_LOG_ID_Mod_Info,"MPPT Power Manager Not Present\r\n");
 #endif
 			init_state = signinit_MPPT_Enumeration_Complete;
 			UnlockSMutex(&Sensor_Bus_Master.Mutex, SBUS_INIT_TAG);   // ZGy_Note_MPPT
@@ -683,6 +715,7 @@ int sign_init_MPPTEnum(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Power_Manager","Enumeration","MPPT Enumeration Complete.\r\n");
 #else
+		formatlog(MSG_MOD_ID_Power_Manager, MSG_LOG_ID_Enumeration,"MPPT Enumeration Complete.\r\n");
 #endif
 		++init_state;
 		return init_state;
@@ -730,6 +763,7 @@ int sign_init_ClearDisplays(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Initialization","Clearing The Display\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Clearing The Display\r\n");
 #endif
 	Clear_Displays();
 	LogStartupTime(7);
@@ -749,6 +783,7 @@ int sign_init_InitData_Log(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Main_Controller","Initialization","Initializing Data Log\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Initializing Data Log\r\n");
 #endif
 		Init_Data_Log();
 		UnlockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG);
@@ -776,6 +811,7 @@ int sign_init_DoStartupFlagChecks(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Main_Controller","Initialization","Check for Startup Flags\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Check for Startup Flags\r\n");
 #endif
 		Do_Startup_Flag_Checks();
 		UnlockSMutex(&Sensor_Bus_Master.Mutex, EEPROM_MUTEX_TAG);
@@ -800,6 +836,7 @@ int sign_init_Module_Post_Enum_Configuration(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Initialization","Module-Specific Initialization\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Module-Specific Initialization\r\n");
 #endif
 	// Notify modules of enumeration success
 	Send_Module_Enum_Success_Notifications();
@@ -824,6 +861,7 @@ int sign_init_NTCIP_Init(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Initialization","NTCIP Initialization\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"NTCIP Initialization\r\n");
 #endif
 	NTCIP_Init();
 	LogStartupTime(7);
@@ -841,6 +879,7 @@ int sign_init_Init_Sched_FW_Install(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 	formatlog("Main_Controller","Initialization","Init Scheduled Firmware Install\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Init Scheduled Firmware Install\r\n");
 #endif
 //#warning 	TODO:  Need to load scheduled install file once RTC Alarms have been refactored.
 //			Catalog_Sched_FW_Install_Files();
@@ -862,6 +901,7 @@ int sign_init_SendStartupNotification(int init_state)
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
 		formatlog("Main_Controller","Initialization","Sending the Startup Notification\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Sending the Startup Notification\r\n");
 #endif
 		// Broadcast the startup notification message
 		Send_Startup_Notification(SubSys_Broadcast, 0);
@@ -886,21 +926,24 @@ int sign_init_InitComplete(int init_state)
 
 	Set_Display_Flashing(false);    // ZGy_Note
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller","Initialization", "Init Complete\r\n");
+	formatlog("Main_Controller","Initialization","Init Complete\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Init Complete\r\n");
 #endif
 	LogStartupTime(8);
 	if(IS_YDBG_FLAG_SET(Y_Debug_Log_Startup_Time))//VR NOTE: Come back later
 	{
 		//aci_print("\r\n\t\t\t\t\t\t\t---------------------------------------\r\n");
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Time","Startup Time:  \t%8ld\r\n", GetMsTicks());
+		formatlog("Main_Controller","Time","Startup Time:  \t%8ld\r\n", GetMsTicks());
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Time,"Startup Time:  \t%8ld\r\n", GetMsTicks());
 #endif
 	}
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-	formatlog("Main_Controller","Initialization", "Sign Init Complete\r\n");
+	formatlog("Main_Controller","Initialization","Sign Init Complete\r\n");
 #else
+	formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Initialization,"Sign Init Complete\r\n");
 #endif
 	init_state = signinit_RunControllerApp;
 	if(IS_XDBG_FLAG_SET(X_Debug_Log_Scheduled_Ops))
@@ -957,8 +1000,9 @@ void sign_init_end()
 	if(IS_XDBG_FLAG_SET(X_Debug_Log_Installed_Options))//VR NOTE: COME BACK LATER
 	{
 #if ((MINOR_FW_VERSION<23)||((MINOR_FW_VERSION==23)&&(SUB_FW_VERSION==0)&&(TEST_FW_VERSION<15)))
-		formatlog("Main_Controller", "Installed_Opt","Log Installed Options.\r\n");
+		formatlog("Main_Controller","Installed_Opt","Log Installed Options.\r\n");
 #else
+		formatlog(MSG_MOD_ID_Main_Controller, MSG_LOG_ID_Installed_Opt,"Log Installed Options.\r\n");
 #endif
 		Log_Installed_Options();
 	}
